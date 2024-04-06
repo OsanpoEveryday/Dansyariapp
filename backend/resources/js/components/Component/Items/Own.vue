@@ -242,7 +242,7 @@ export default {
             items: [],
             newitem: {
                 // 最初に定義しないとundefindが表示される
-                name:'',
+                name: '',
             },
             modalItem: {},
             modalItemId: '',

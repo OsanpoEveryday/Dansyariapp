@@ -3113,7 +3113,9 @@ var render = function render() {
       "min-height": "70vh",
       rounded: "lg"
     }
-  }, [_vm.$route.path.includes("ownitems/category") ? [_c("Own")] : _vm._e(), _vm._v(" "), _vm.$route.path.includes("wantitems/category") ? [_c("Want")] : _vm._e(), _vm._v(" "), _vm.$route.path.includes("disuseitems/category") ? [_c("Disuse")] : _vm._e()], 2);
+  }, [_vm.$route.path.includes("ownitems/category") ? [_c("Own", {
+    key: _vm.$route
+  })] : _vm._e(), _vm._v(" "), _vm.$route.path.includes("wantitems/category") ? [_c("Want")] : _vm._e(), _vm._v(" "), _vm.$route.path.includes("disuseitems/category") ? [_c("Disuse")] : _vm._e()], 2);
 };
 
 var staticRenderFns = [];
@@ -84405,8 +84407,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuetify__WEBPACK_IMPORTED_MODULE_
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/jin/Desktop/dansyari/backend/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /Users/jin/Desktop/dansyari/backend/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /Users/jin/Dansyariapp/backend/resources/js/app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! /Users/jin/Dansyariapp/backend/resources/sass/app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
