@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 class CategoryController extends Controller
 {
     public function index(){
-        $categories=Category::where('user_id', Auth::user()->id)->get();
+        $categories=Category::with('rules')->where('user_id', Auth::user()->id)->get();
         return $categories;
     }
     public function store(Request $request){

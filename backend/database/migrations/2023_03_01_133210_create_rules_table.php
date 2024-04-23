@@ -21,8 +21,6 @@
 						$table->timestamps();
 						$table->foreign("category_id")->references("id")->on("categories");
 
-
-
 						// ----------------------------------------------------
 						// -- SELECT [rules]--
 						// ----------------------------------------------------

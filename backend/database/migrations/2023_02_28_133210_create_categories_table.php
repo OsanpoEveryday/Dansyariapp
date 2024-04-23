@@ -14,19 +14,14 @@
             public function up()
             {
                 Schema::create("categories", function (Blueprint $table) {
-
 						$table->bigIncrements('id');
 						$table->string('name')->nullable();
 						$table->timestamps();
 						$table->bigInteger('user_id')->unsigned();
-						
-
                     //*********************************
                     // Foreign KEY [ Uncomment if you want to use!! ]
                     //*********************************
                         $table->foreign("user_id")->references("id")->on("users");
-
-
 
 						// ----------------------------------------------------
 						// -- SELECT [categories]--
