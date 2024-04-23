@@ -317,8 +317,8 @@ export default {
                 });
         },
         openViewDialog(item) {
-            this.dialog_view = true;
             this.modalItem = item;
+            this.dialog_view = true;
             console.log(this.modalItem);
         },
         switchView() {
