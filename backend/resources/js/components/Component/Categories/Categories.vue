@@ -25,19 +25,43 @@
                             </div>
                         </template>
                         <template v-if="$route.path === '/wantitems/category/' + $route.params.id">
+                            <div class="parent">
+                                <router-link v-bind:to="{ name: 'wantitems', params: { id: category.id } }">
+                                    <v-btn text>
+                                        {{ category.name }}
+                                    </v-btn>
+                                </router-link>
+                                <v-btn text class="child" @click="openViewDialog(category)">
+                                    <i class="fa-regular fa-window-restore"></i>
+                                </v-btn>
+                            </div>
+                        </template>
+                        <template v-if="$route.path === '/disuseitems/category/' + $route.params.id">
+                            <div class="parent">
+                                <router-link v-bind:to="{ name: 'disuseitems', params: { id: category.id } }">
+                                    <v-btn text>
+                                        {{ category.name }}
+                                    </v-btn>
+                                </router-link>
+                                <v-btn text class="child" @click="openViewDialog(category)">
+                                    <i class="fa-regular fa-window-restore"></i>
+                                </v-btn>
+                            </div>
+                        </template>
+                        <!-- <template v-if="$route.path === '/wantitems/category/' + $route.params.id">
                             <v-btn text>
                                 <router-link v-bind:to="{ name: 'wantitems', params: { id: category.id } }">
                                     {{ category.name }}
                                 </router-link>
                             </v-btn>
-                        </template>
-                        <template v-if="$route.path === '/disuseitems/category/' + $route.params.id">
+                        </template> -->
+                        <!-- <template v-if="$route.path === '/disuseitems/category/' + $route.params.id">
                             <v-btn>
                                 <router-link v-bind:to="{ name: 'disuseitems', params: { id: category.id } }">
                                     {{ category.name }}
                                 </router-link>
                             </v-btn>
-                        </template>
+                        </template> -->
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -253,8 +277,6 @@ export default {
         }
     },
     methods: {
-
-
         switchView() {
             this.uneditable = !this.uneditable;
             this.editable = !this.editable;
@@ -301,14 +323,5 @@ export default {
     mounted() {
         this.getCategories();
     },
-    beforeRouteUpdate(to, from, next) {
-        const id = to.params.id;
-        axios.get('api/ownitems/category/' + id)
-            .then((res) => {
-                this.items = res.data;
-            });
-        next()
-    },
-
 }
 </script>

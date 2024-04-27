@@ -108,7 +108,38 @@ class ItemController extends Controller
         dd($item);
         return $item;
     }
-
+    public function storeDisuseItem(Request $request, Category $category){
+        $filePath = $request->item_image->store('public');
+        $filePath = '/storage'.str_replace('public','',$filePath); 
+        //$disuse_monthに制限を追加
+        $validator = Validator::make($request->all(),[
+            'disuse_month' => 'numeric|between:1,24'
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+        }
+        $item = new Item;
+        // Authを使うにはweb.php上に書く必要あり
+        $item->user_id = Auth::user()->id;
+        $item->name = $request->name;
+        $item->amount = $request->amount;
+        $item->place = $request->place;
+        $item->purchase_from = $request->purchase_from;
+        $item->purchase_date = $request->purchase_date;
+        $item->disuse_month = $request->disuse_month;
+        $item->url = $request->url;
+        $item->memo = $request->memo;
+        $item->image_path = $filePath;
+        $item->category_id = $category->id;
+        $item->want = false;
+        $item->is_unnecessary = true;
+        $item->itemUsageHistories->use_at = now();
+        $item->save();
+        dd($item);
+        return $item;
+    }
     public function update(Request $request, Item $item){
         $item->name = $request->name;
         $item->amount = $request->amount;

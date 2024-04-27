@@ -168,7 +168,6 @@
 
 <script>
 export default {
-    props: ['category'],
     data() {
         return {
             items: [],
@@ -282,7 +281,6 @@ export default {
         },
     },
     mounted() {
-        console.log("mounted");
         this.getWants();
     },
     beforeRouteUpdate(to, from, next) {
