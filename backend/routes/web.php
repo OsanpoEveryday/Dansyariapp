@@ -37,6 +37,9 @@ Route::prefix('api')->group(function() {
 
     Route::post('/storeownitem/{category}', 'ItemController@storeOwnItem')
     ->middleware('auth');
+
+    Route::post('/storedisuseitem/{category}', 'ItemController@storeDisuseItem')
+    ->middleware('auth');
     
     Route::post('/edititem/{item}', 'ItemController@update');
     
