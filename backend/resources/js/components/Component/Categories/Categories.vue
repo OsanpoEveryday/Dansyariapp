@@ -25,18 +25,18 @@
                             </div>
                         </template>
                         <template v-if="$route.path === '/wantitems/category/' + $route.params.id">
-                            <b-btn text>
+                            <v-btn text>
                                 <router-link v-bind:to="{ name: 'wantitems', params: { id: category.id } }">
                                     {{ category.name }}
                                 </router-link>
-                            </b-btn>
+                            </v-btn>
                         </template>
                         <template v-if="$route.path === '/disuseitems/category/' + $route.params.id">
-                            <b-btn>
+                            <v-btn>
                                 <router-link v-bind:to="{ name: 'disuseitems', params: { id: category.id } }">
                                     {{ category.name }}
                                 </router-link>
-                            </b-btn>
+                            </v-btn>
                         </template>
                     </v-list-item-content>
                 </v-list-item>
