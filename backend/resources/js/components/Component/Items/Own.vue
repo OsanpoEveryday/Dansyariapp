@@ -1,33 +1,35 @@
 <template>
-    <v-card min-height="70vh">
-        <v-toolbar dark>
-            <v-toolbar-title>持ちモノ</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn color="grey lighten-3" class="black--text" @click.stop="dialog_newitem = true">アイテム追加</v-btn>
-        </v-toolbar>
-        <v-list-item-group class="d-flex flex-wrap">
-            <v-col v-for="item in items" :key="item.id" lg="3" md="4" sm="6" xs="12">
-                <!-- コンポーネントで分けるもしくはdialogを外出しして内容を切り替える -->
-                <v-list-item class="with">
-                    <v-list-item-content>
-                        <v-card class="mx-auto" outlined>
-                            <v-list-item three-line @click="openViewDialog(item)">
-                                <v-list-item-content>
-                                    <div class="text-overline mb-4">
-                                    </div>
-                                    <v-list-item-title class="text-h6 mb-1">
-                                        {{ item.name }}
-                                    </v-list-item-title>
-                                    <v-list-item-subtitle></v-list-item-subtitle>
-                                </v-list-item-content>
-                                <v-list-item-avatar tile size="80" color="grey"><img :src="item.image_path" alt="">
-                                </v-list-item-avatar>
-                            </v-list-item>
-                        </v-card>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-col>
-        </v-list-item-group>
+    <div>
+        <v-card min-height="70vh">
+            <v-toolbar dark>
+                <v-toolbar-title>持ちモノ</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn color="grey lighten-3" class="black--text" @click.stop="dialog_newitem = true">アイテム追加</v-btn>
+            </v-toolbar>
+            <v-list-item-group class="d-flex flex-wrap">
+                <v-col v-for="item in items" :key="item.id" lg="3" md="4" sm="6" xs="12">
+                    <!-- コンポーネントで分けるもしくはdialogを外出しして内容を切り替える -->
+                    <v-list-item class="with">
+                        <v-list-item-content>
+                            <v-card class="mx-auto" outlined>
+                                <v-list-item three-line @click="openViewDialog(item)">
+                                    <v-list-item-content>
+                                        <div class="text-overline mb-4">
+                                        </div>
+                                        <v-list-item-title class="text-h6 mb-1">
+                                            {{ item.name }}
+                                        </v-list-item-title>
+                                        <v-list-item-subtitle></v-list-item-subtitle>
+                                    </v-list-item-content>
+                                    <v-list-item-avatar tile size="80" color="grey"><img :src="item.image_path" alt="">
+                                    </v-list-item-avatar>
+                                </v-list-item>
+                            </v-card>
+                        </v-list-item-content>
+                    </v-list-item>
+                </v-col>
+            </v-list-item-group>
+        </v-card>
         <!-- ここまでコンポーネント -->
         <!-- アイテム詳細ダイアログ -->
         <v-dialog v-model="dialog_view" persistent max-width="500px" scrollable>
@@ -232,7 +234,7 @@
                 </form>
             </v-card>
         </v-dialog> -->
-    </v-card>
+    </div>
 </template>
 
 <script>
@@ -319,7 +321,6 @@ export default {
         openViewDialog(item) {
             this.modalItem = item;
             this.dialog_view = true;
-            console.log(this.modalItem);
         },
         switchView() {
             this.uneditable = !this.uneditable;
