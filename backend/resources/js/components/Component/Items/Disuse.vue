@@ -243,7 +243,6 @@ export default {
             item: {},
             newitem: {},
             modalItem: {},
-            id: this.$route.params.id,
             dialog: false,
             fileInfo: '',
             dialog_view: false,
@@ -274,6 +273,9 @@ export default {
             this.update_url = this.modalItem.url;
             this.update_memo = this.modalItem.memo;
         },
+        $route: function () {
+            this.getItems();
+        }
     },
     methods: {
         fileSelected(event) {
@@ -332,7 +334,7 @@ export default {
             formData.append('url', this.newitem.url)
             formData.append('memo', this.newitem.memo)
             axios
-                .post("api/storedisuseitem/" + this.id, formData)
+                .post("api/storedisuseitem/" + this.$route.params.id, formData)
                 .then((res) => {
                     console.log(res);
                     this.dialog_newitem = false;
@@ -341,8 +343,8 @@ export default {
                     console.log(err);
                 });
         },
-        getDisuseItems() {
-            axios.get('api/disuseitems/category/' + this.id)
+        getItems() {
+            axios.get('api/disuseitems/category/' + this.$route.params.id)
                 .then((res) => {
                     this.items = res.data;
                 });
@@ -355,7 +357,7 @@ export default {
         },
     },
     mounted() {
-        this.getDisuseItems();
+        this.getItems();
     },
     beforeRouteUpdate(to, from, next) {
         const id = to.params.id;
