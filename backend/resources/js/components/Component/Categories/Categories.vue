@@ -4,9 +4,13 @@
             <v-list color="transparent">
                 <v-list-item>
                     <v-list-item-content>
-                        <v-btn dark @click="dialog_add = true">
+                        <!-- <v-btn dark class="my-1" @click="dialog_add = true">
                             カテゴリ追加
-                        </v-btn>
+                        </v-btn> -->
+                        <v-list-item-title>
+                            カテゴリ一覧
+                        </v-list-item-title>
+                        <i class="fa-solid fa-gear"></i>
                     </v-list-item-content>
                 </v-list-item>
                 <v-divider class="my-2"></v-divider>
@@ -177,7 +181,7 @@
     </v-list> -->
         </v-sheet>
         <!-- カテゴリ追加ダイアログ -->
-        <v-dialog v-model="dialog_add" persistent max-width="500px">
+        <!-- <v-dialog v-model="dialog_add" persistent max-width="500px">
             <v-card outlined>
                 <v-card-title>
                     新規カテゴリ
@@ -208,8 +212,8 @@
                     </v-btn>
                 </v-card-actions>
             </v-card>
-            <!-- カテゴリ詳細ダイアログ -->
-        </v-dialog>
+        </v-dialog> -->
+        <!-- カテゴリ詳細ダイアログ -->
         <v-dialog v-model="dialog_view" persistent max-width="500px">
             <v-card outlined>
                 <v-card-title v-show="uneditable">

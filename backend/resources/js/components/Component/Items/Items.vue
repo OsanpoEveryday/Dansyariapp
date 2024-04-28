@@ -2,7 +2,7 @@
     <v-sheet min-height="70vh" rounded="lg">
         <!-- ブレークポイント設定 -->
         <template v-if="$route.path.includes('ownitems/category')">
-            <Own :key="$route"></Own>
+            <Own></Own>
             <!-- ルートパラメータが変更しても画面が再描画されない。カテゴリの選択によってOwnコンポーネントを再描画するため、keyでルートパラメータに変更があるたびに更新するようにする -->
         </template>
 
