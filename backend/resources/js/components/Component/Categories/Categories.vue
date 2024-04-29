@@ -4,18 +4,29 @@
             <v-list color="transparent">
                 <v-list-item>
                     <v-list-item-content>
-                        <!-- <v-btn dark class="my-1" @click="dialog_add = true">
-                            カテゴリ追加
-                        </v-btn> -->
-                        <v-list-item-title>
-                            カテゴリ一覧
-                        </v-list-item-title>
-                        <i class="fa-solid fa-gear"></i>
+                        <div class="d-flex">
+                            <v-list-item-title>カテゴリ一覧</v-list-item-title>
+                            <router-link v-bind:to="{}">
+                                <v-btn text>
+                                    <i class="fa-solid fa-gear"></i>
+                                </v-btn>
+                            </router-link>
+                        </div>
                     </v-list-item-content>
                 </v-list-item>
+                <!-- <v-list-item>
+                    <v-list-item-content class="d-flex justify-center">
+                        <v-list-item-title class="d-inline-block">
+                            カテゴリ一覧
+                        </v-list-item-title>
+                        <v-btn text class="d-inline-block">
+                            <i class="fa-solid fa-gear"></i>
+                        </v-btn>
+                    </v-list-item-content>
+                </v-list-item> -->
                 <v-divider class="my-2"></v-divider>
                 <v-list-item v-for="category in categories" :key="category.id">
-                    <v-list-item-content class="d-flex justify-space-between">
+                    <v-list-item-content>
                         <template v-if="$route.path === '/ownitems/category/' + $route.params.id">
                             <div class="parent">
                                 <router-link v-bind:to="{ name: 'ownitems', params: { id: category.id } }">

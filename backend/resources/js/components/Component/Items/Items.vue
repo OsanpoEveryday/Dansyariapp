@@ -86,7 +86,6 @@ export default {
         Disuse,
     },
     mounted() {
-        console.log("components mounted");
     },
 }
 

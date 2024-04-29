@@ -42,12 +42,14 @@ Route::prefix('api')->group(function() {
     ->middleware('auth');
     
     Route::post('/edititem/{item}', 'ItemController@update');
+
     
 });
 
 
 Route::prefix('api')->group(function() {
     Route::get('/categories', 'CategoryController@index');
+    Route::get('/categoryedit/{category}', 'CategoryController@show');
     Route::post('/categories', 'CategoryController@store');
 });
 

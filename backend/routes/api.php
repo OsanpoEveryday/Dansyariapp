@@ -46,7 +46,7 @@ Route::delete('/categories/{category}', 'CategoryController@destroy');
 
 
 Route::get('/rules','RuleController@index');
-Route::get('/categoryedit/{categoryId}','RuleController@category');
+// Route::get('/categoryedit/{categoryId}','RuleController@category');
 Route::put('/categoryedit/rules/{rule}','RuleController@update');
 
 Route::get('/home','ItemUsageHistoryController@items');
