@@ -48,7 +48,7 @@ const router = new VueRouter({
             component:Rule,
         },
         {
-            path:'/categoryedit/:categoryId',
+            path:'/categoryedit/:id',
             name:'categoryedit',
             component: CategoryEdit,
         },

@@ -14,7 +14,9 @@ class CategoryTableSeeder extends Seeder
     {
         $param = [
             'name' => 'ファッション',
-            "user_id"=> 1
+            "user_id"=> 1,
+            'rule1'=>"洗える",
+            'rule2'=>"着心地がいい",
         ];
         DB::table('categories')->insert($param);
 

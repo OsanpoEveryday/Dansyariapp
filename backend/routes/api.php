@@ -24,7 +24,6 @@ use App\Item;
 
 Route::get('/categories', 'CategoryController@index');
 Route::post('/categories', 'CategoryController@store');
-Route::get('/categories/{category}', 'CategoryController@show');
 Route::put('/categories/{category}', 'CategoryController@update');
 Route::delete('/categories/{category}', 'CategoryController@destroy');
 
@@ -47,7 +46,7 @@ Route::delete('/categories/{category}', 'CategoryController@destroy');
 
 Route::get('/rules','RuleController@index');
 // Route::get('/categoryedit/{categoryId}','RuleController@category');
-Route::put('/categoryedit/rules/{rule}','RuleController@update');
+
 
 Route::get('/home','ItemUsageHistoryController@items');
 
