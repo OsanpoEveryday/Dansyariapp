@@ -1,16 +1,14 @@
 <template>
     <div>
-        <v-sheet rounded="lg">
+        <v-card rounded="lg">
             <v-list color="transparent">
                 <v-list-item>
                     <v-list-item-content>
                         <div class="d-flex">
                             <v-list-item-title>カテゴリ一覧</v-list-item-title>
-                            <router-link v-bind:to="{}">
-                                <v-btn text>
-                                    <i class="fa-solid fa-gear"></i>
-                                </v-btn>
-                            </router-link>
+                            <v-btn text @click="dialog_add = true">
+                                <i class="fa-solid fa-plus"></i>
+                            </v-btn>
                         </div>
                     </v-list-item-content>
                 </v-list-item>
@@ -80,171 +78,183 @@
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
-            <!-- <v-list color="transparent">
-                <v-list-item v-for="category in categories" :key="category.id">
-                    <v-list-item-content>
-                        <v-dialog v-model="dialog" persistent max-width="600px">
-                            <template v-slot:activator="{ on, attrs }">
-                                <v-list-item-title class="d-flex justify-space-between"> -->
             <!-- v-ifで現在のURLによって遷移先を切り替えるような条件分岐をする -->
             <!-- $route.path === '/foo' -->
             <!-- v-slotはv-forで回している１つ１つのcategoryが子コンポーネントに引き継がれるわけではないため、使えない -->
             <!-- v-slotを適用する場合は、v-list-item-content以下をコンポーネントにする -->
             <!-- <template v-if="$route.path === '/ownitems/category/' + $route.params.id"> -->
             <!-- v-if="$route.path.includes('ownitems/category')"で特定文字列を含むものを指定可能 -->
-            <!-- <p>
-                                            <router-link v-bind:to="{ name: 'ownitems', params: { id: category.id } }">
-                                                <v-btn text>
-                                                    {{ category.name }}
-                                                </v-btn>
-                                            </router-link>
-                                        </p>
-                                    </template>
-    <template v-if="$route.path === '/wantitems/category/' + $route.params.id">
-                                        <p>
-                                            <router-link v-bind:to="{ name: 'wantitems', params: { id: category.id } }">
-                                                {{ category.name }}
-                                            </router-link>
-                                        </p>
-                                    </template>
-    <template v-if="$route.path === '/disuseitems/category/' + $route.params.id">
-                                        <p>
-                                            <router-link v-bind:to="{ name: 'disuseitems', params: { id: category.id } }">
-                                                {{ category.name }}
-                                            </router-link>
-                                        </p>
-                                    </template>
-    <v-btn color="gray" dark v-bind="attrs" v-on="on">編集</v-btn>
-    </v-list-item-title>
-    </template>
-    <v-card>
-        <form @submit.prevent="updateCategory">
-            <v-card-title>
-                <span class="text-h5">カテゴリ編集</span>
-            </v-card-title>
-            <v-card-text>
-                <v-container>
-                    <v-row>
-                        <v-col cols="12">
-                            <v-text-field v-model="category.name" label="カテゴリ名" required>
-                            </v-text-field>
-                        </v-col>
-                    </v-row>
-                </v-container>
-            </v-card-text>
-            <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="gray" text @click="dialog = false">
-                    閉じる
-                </v-btn>
-                <v-btn color="gray" text @click="updateCategory">
-                    変更
-                </v-btn>
-                <v-btn color="gray" text @click="deleteCategory">
-                    削除
-                </v-btn>
-            </v-card-actions>
-        </form>
-    </v-card>
-    </v-dialog>
-    </v-list-item-content>
-    </v-list-item>
-    <v-divider class="my-2"></v-divider>
-    <v-list-item link color="grey lighten-4">
-        <v-list-item-content>
-            <v-list-item-title>
-                <v-dialog v-model="dialog" persistent max-width="600px">
-                    <template v-slot:activator="{ on, attrs }">
-                                    <v-btn color="gray" dark v-bind="attrs" v-on="on">
-                                        カテゴリ追加
-                                    </v-btn>
-                                </template>
-                    <v-card>
-                        <form @submit.prevent="submit">
-                            <v-card-title>
-                                <span class="text-h5">カテゴリ追加</span>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-container>
-                                    <v-row>
-                                        <v-col cols="12">
-                                            <v-text-field v-model="category.name" label="カテゴリ名" required>
-                                            </v-text-field>
-                                        </v-col>
-                                    </v-row>
-                                </v-container>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn color="gray" text @click="dialog = false">
-                                    閉じる
-                                </v-btn>
-                                <v-btn color="gray" text @click="submit">
-                                    追加
-                                </v-btn>
-                            </v-card-actions>
-                        </form>
-                    </v-card>
-                </v-dialog>
-            </v-list-item-title>
-        </v-list-item-content>
-    </v-list-item>
-    </v-list> -->
-        </v-sheet>
-        <!-- カテゴリ追加ダイアログ -->
-        <!-- <v-dialog v-model="dialog_add" persistent max-width="500px">
-            <v-card outlined>
-                <v-card-title>
-                    新規カテゴリ
-                </v-card-title>
-                <v-card-text>
-                    <v-list-item>
-                        <v-list-item-content>
-                            <v-form>
-                                <v-text-field v-model="category.name" label="カテゴリ名" required>
-                                </v-text-field>
-                                <v-text-field label="ルール1" required>
-                                </v-text-field>
-                                <v-text-field label="ルール2" required>
-                                </v-text-field>
-                                <v-text-field label="ルール3" required>
-                                </v-text-field>
-                            </v-form>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-card-text>
-                <v-card-actions>
+        </v-card>
+        <!-- カテゴリ詳細ダイアログ -->
+        <v-dialog v-model="dialog_view" persistent max-width="500px">
+            <v-card min-height="70vh" rounded="lg">
+                <v-toolbar dark>
+                    <v-toolbar-title class="parent" v-show="uneditable_name">
+                        {{ modalCategory.name }}
+                        <v-btn class="child" text @click="switchView_name()">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </v-btn>
+                    </v-toolbar-title>
+                    <v-text-field color="grey-darken-1" class="my-auto" v-show="editable_name"
+                        v-model="modalCategory.name">
+                    </v-text-field>
                     <v-spacer></v-spacer>
-                    <v-btn color="gray" text @click="addCategory()">
-                        追加
+                </v-toolbar>
+                <v-list-item>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            メモ
+                        </v-list-item-title>
+                        <v-textarea color="grey-darken-1" class="mt-3" label="モノに対する考え方を自由に書いてみましょう" outlined
+                            v-model="modalCategory.memo">
+                        </v-textarea>
+                        <div class="parent" v-show="uneditable_1">
+                            <v-list-item-title>
+                                ルール１: {{ modalCategory.rule1 }}
+                            </v-list-item-title>
+                            <v-btn class="child" text @click="switchView1()">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </v-btn>
+                        </div>
+                        <v-list-item-title>
+                            <v-row v-show="editable_1">
+                                <v-col cols="12">
+                                    <v-text-field color="grey-darken-1" label="ルール１" v-model="modalCategory.rule1">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-list-item-title>
+                        <v-divider class="my-4"></v-divider>
+                        <div class="parent" v-show="uneditable_2">
+                            <v-list-item-title>
+                                ルール２: {{ modalCategory.rule2 }}
+                            </v-list-item-title>
+                            <v-btn class="child" text @click="switchView2()">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </v-btn>
+                        </div>
+                        <v-list-item-title>
+                            <v-row v-show="editable_2">
+                                <v-col cols="12">
+                                    <v-text-field color="grey-darken-1" label="ルール２" v-model="modalCategory.rule2">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-list-item-title>
+                        <v-divider class="my-4"></v-divider>
+                        <div class="parent" v-show="uneditable_3">
+                            <v-list-item-title>
+                                ルール３: {{ modalCategory.rule3 }}
+                            </v-list-item-title>
+                            <v-btn class="child" text @click="switchView3()">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </v-btn>
+                        </div>
+                        <v-list-item-title>
+                            <v-row v-show="editable_3">
+                                <v-col cols="12">
+                                    <v-text-field color="grey-darken-1" label="ルール３" v-model="modalCategory.rule3">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-list-item-title>
+                        <v-divider class="my-4"></v-divider>
+                        <div class="parent" v-show="uneditable_4">
+                            <v-list-item-title>
+                                ルール４: {{ modalCategory.rule4 }}
+                            </v-list-item-title>
+                            <v-btn class="child" text @click="switchView4()">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </v-btn>
+                        </div>
+                        <v-list-item-title>
+                            <v-row v-show="editable_4">
+                                <v-col cols="12">
+                                    <v-text-field color="grey-darken-1" label="ルール４" v-model="modalCategory.rule4">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-list-item-title>
+                        <v-divider class="my-4"></v-divider>
+                        <div class="parent" v-show="uneditable_5">
+                            <v-list-item-title>
+                                ルール５: {{ modalCategory.rule5 }}
+                            </v-list-item-title>
+                            <v-btn class="child" text @click="switchView5()">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </v-btn>
+                        </div>
+                        <v-list-item-title>
+                            <v-row v-show="editable_5">
+                                <v-col cols="12">
+                                    <v-text-field color="grey-darken-1" label="ルール５" v-model="modalCategory.rule5">
+                                    </v-text-field>
+                                </v-col>
+                            </v-row>
+                        </v-list-item-title>
+                        <v-divider class="my-4"></v-divider>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-card-actions class="d-flex justify-end">
+                    <v-btn text @click="updateCategory(modalCategory.id); getCategories()">
+                        保存
                     </v-btn>
-                    <v-btn color="gray" text @click="dialog_add = false">
+                    <v-btn text @click="switchViewToUneditable()">
                         閉じる
                     </v-btn>
                 </v-card-actions>
             </v-card>
-        </v-dialog> -->
-        <!-- カテゴリ詳細ダイアログ -->
-        <v-dialog v-model="dialog_view" persistent max-width="500px">
-            <v-card outlined>
-                <v-card-title v-show="uneditable">
-                    {{ modalCategory.name }}
-                </v-card-title>
-                <v-text-field v-model="update_category_name" v-show="editable"></v-text-field>
-                <v-card-subtitle class="my-1">
-                    ルール
-                </v-card-subtitle>
-                <v-card-text class="text-body-1" v-for="rule in modalCategory.rules" :key="rule.id" v-show="uneditable">
-                    <i class="fa-solid fa-ruler"></i>
-                    {{ rule.text }}
-                </v-card-text>
-                <v-text-field v-model="update_rule_text" v-show="editable"></v-text-field>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn text color="gray" @click="switchView()">
-                        編集
+        </v-dialog>
+
+        <!-- カテゴリ追加ダイアログ -->
+        <v-dialog v-model="dialog_add" persistent max-width="500px">
+            <v-card>
+                <v-toolbar dark>
+                    <v-toolbar-title>
+                        カテゴリ追加
+                    </v-toolbar-title>
+                </v-toolbar>
+                <v-list-item>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            <v-text-field color="grey-darken-1" label="カテゴリ名" v-model="newCategory.name">
+                            </v-text-field>
+                        </v-list-item-title>
+                        <v-list-item-title class="mt-2">
+                            <v-textarea class="mt-2" color="grey-darken-1" label="メモ：モノに対する考え方を自由に書いてみましょう" outlined
+                                v-model="newCategory.memo">
+                            </v-textarea>
+                        </v-list-item-title>
+                        <v-list-item-title>
+                            <v-text-field color="grey-darken-1" label="ルール１:" v-model="newCategory.rule1">
+                            </v-text-field>
+                        </v-list-item-title>
+                        <v-list-item-title>
+                            <v-text-field color="grey-darken-1" label="ルール２:" v-model="newCategory.rule2">
+                            </v-text-field>
+                        </v-list-item-title>
+                        <v-list-item-title>
+                            <v-text-field color="grey-darken-1" label="ルール３:" v-model="newCategory.rule3">
+                            </v-text-field>
+                        </v-list-item-title>
+                        <v-list-item-title>
+                            <v-text-field color="grey-darken-1" label="ルール４:" v-model="newCategory.rule4">
+                            </v-text-field>
+                        </v-list-item-title>
+                        <v-list-item-title>
+                            <v-text-field color="grey-darken-1" label="ルール５:" v-model="newCategory.rule5">
+                            </v-text-field>
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
+                <v-card-actions class="d-flex justify-end">
+                    <v-btn text @click="clearNewCategory()">
+                        クリア
                     </v-btn>
-                    <v-btn text color="gray" @click="dialog_view = false">
+                    <v-btn text @click="addCategory()">
+                        保存
+                    </v-btn>
+                    <v-btn text @click="dialog_add = false">
                         閉じる
                     </v-btn>
                 </v-card-actions>
@@ -253,13 +263,18 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 .child {
-    display: none;
+    display: inline-block;
+    visibility: hidden;
+    opacity: 0;
+    transition: .3s;
 }
 
 .parent:hover .child {
-    display: inline-block;
+    visibility: visible;
+    opacity: 1;
+    transition: .3s;
 }
 
 .parent {
@@ -281,11 +296,25 @@ export default {
             categories: [],
             category: {},
             modalCategory: {},
+            newCategory: {},
             id: this.$route.params.id,
             dialog_add: false,
             dialog_view: false,
             editable: false,
             uneditable: true,
+
+            editable_name: false,
+            uneditable_name: true,
+            editable_1: false,
+            uneditable_1: true,
+            editable_2: false,
+            uneditable_2: true,
+            editable_3: false,
+            uneditable_3: true,
+            editable_4: false,
+            uneditable_4: true,
+            editable_5: false,
+            uneditable_5: true,
 
             update_category_name: '',
             update_rule_text: '',
@@ -296,18 +325,63 @@ export default {
             this.uneditable = !this.uneditable;
             this.editable = !this.editable;
         },
+        switchView_name() {
+            this.editable_name = !this.editable_name;
+            this.uneditable_name = !this.uneditable_name;
+        },
+        switchView1() {
+            this.editable_1 = !this.editable_1;
+            this.uneditable_1 = !this.uneditable_1;
+        },
+        switchView2() {
+            this.editable_2 = !this.editable_2;
+            this.uneditable_2 = !this.uneditable_2;
+        },
+        switchView3() {
+            this.editable_3 = !this.editable_3;
+            this.uneditable_3 = !this.uneditable_3;
+        },
+        switchView4() {
+            this.editable_4 = !this.editable_4;
+            this.uneditable_4 = !this.uneditable_4;
+        },
+        switchView5() {
+            this.editable_5 = !this.editable_5;
+            this.uneditable_5 = !this.uneditable_5;
+        },
+        switchViewToUneditable() {
+            this.dialog_view = false;
+            this.getCategories();
+            this.editable_name = false;
+            this.editable_1 = false;
+            this.editable_2 = false;
+            this.editable_3 = false;
+            this.editable_4 = false;
+            this.editable_5 = false;
+            this.uneditable_name = true;
+            this.uneditable_1 = true;
+            this.uneditable_2 = true;
+            this.uneditable_3 = true;
+            this.uneditable_4 = true;
+            this.uneditable_5 = true;
+        },
         getCategories() {
             axios.get('/api/categories')
                 .then((res) => {
                     this.categories = res.data;
                 });
         },
-        updateCategory() {
-            axios.put('api/categories/' + this.category.id, {
-                name: this.category.name
+        updateCategory(categoryId) {
+            axios.post('/api/categoryedit/' + categoryId, {
+                name: this.modalCategory.name,
+                memo: this.modalCategory.memo,
+                rule1: this.modalCategory.rule1,
+                rule2: this.modalCategory.rule2,
+                rule3: this.modalCategory.rule3,
+                rule4: this.modalCategory.rule4,
+                rule5: this.modalCategory.rule5
             }).then((res) => {
-                this.categoryValue = res.data.category;
-                this.dialog = false;
+                this.switchViewToUneditable();
             });
         },
         deleteCategory() {
@@ -316,14 +390,21 @@ export default {
                 // 表示側のみ変える
             })
         },
+        clearNewCategory() {
+            this.newCategory = {}
+        },
         addCategory() {
             axios.post('api/categories', {
-                name: this.category.name,
+                name: this.newCategory.name,
+                memo: this.newCategory.memo,
+                rule1: this.newCategory.rule1,
+                rule2: this.newCategory.rule2,
+                rule3: this.newCategory.rule3,
+                rule4: this.newCategory.rule4,
+                rule5: this.newCategory.rule5,
             })
                 .then((res) => {
-                    this.categories.push(res.data);
-                    this.category.name = "";
-                    this.dialog = false;
+
                 })
                 .catch((err) => {
                     console.log(err);

@@ -3,11 +3,18 @@
         <v-container>
             <v-row>
                 <v-col cols="3">
-                    <v-sheet rounded="lg">
+                    <v-card rounded="lg">
                         <v-list color="transparent">
                             <v-list-item>
                                 <v-list-item-content>
-                                    <v-list-item-title>カテゴリ設定</v-list-item-title>
+                                    <div class="d-flex">
+                                        <v-list-item-title>カテゴリ設定</v-list-item-title>
+                                        <router-link v-bind:to="{}">
+                                            <v-btn text>
+                                                <i class="fa-solid fa-plus"></i>
+                                            </v-btn>
+                                        </router-link>
+                                    </div>
                                 </v-list-item-content>
                             </v-list-item>
                             <v-divider class="my-2"></v-divider>
@@ -23,15 +30,20 @@
                                 </v-list-item-content>
                             </v-list-item>
                         </v-list>
-                    </v-sheet>
+                    </v-card>
                 </v-col>
                 <!-- カテゴリ詳細 -->
                 <v-col>
                     <v-card min-height="70vh" rounded="lg">
                         <v-toolbar dark>
-                            <v-toolbar-title>
+                            <v-toolbar-title class="parent" v-show="uneditable_name">
                                 {{ category_edit.name }}
+                                <v-btn class="child" text @click="switchView_name()">
+                                    <i class="fa-regular fa-pen-to-square"></i>
+                                </v-btn>
                             </v-toolbar-title>
+                            <v-text-field class="my-auto" v-show="editable_name" v-model="category_edit.name">
+                            </v-text-field>
                             <v-spacer></v-spacer>
                         </v-toolbar>
                         <v-list-item>
@@ -39,7 +51,7 @@
                                 <v-list-item-title>
                                     メモ
                                 </v-list-item-title>
-                                <v-textarea color="grey-darken-1" class="mt-2" label="モノに対する考え方を自由に書いてみましょう" outlined
+                                <v-textarea color="grey-darken-1" class="mt-3" label="モノに対する考え方を自由に書いてみましょう" outlined
                                     v-model="category_edit.memo">
                                 </v-textarea>
                                 <div class="parent" v-show="uneditable_1">
@@ -130,10 +142,10 @@
                             </v-list-item-content>
                         </v-list-item>
                         <v-card-actions class="d-flex justify-end">
-                            <v-btn text @click="updateCategory(category_edit.id)">
+                            <v-btn text @click="updateCategory(category_edit.id); getCategories()">
                                 保存
                             </v-btn>
-                            <v-btn text @click="getCategoryEditing(); switchViewToUneditable()">
+                            <v-btn text @click="getCategoryEditing(); switchViewToUneditable">
                                 戻る
                             </v-btn>
                         </v-card-actions>
@@ -144,16 +156,22 @@
     </v-main>
 </template>
 
-<style>
+<style scoped>
 .child {
+    display: inline-block;
     visibility: hidden;
     opacity: 0;
+    transition: .3s;
 }
 
 .parent:hover .child {
     visibility: visible;
     opacity: 1;
-    transition: 1s;
+    transition: .3s;
+}
+
+.parent {
+    display: flex;
 }
 </style>
 
@@ -165,6 +183,8 @@ export default {
         return {
             categories: [],
             category_edit: {},
+            editable_name: false,
+            uneditable_name: true,
             editable_1: false,
             uneditable_1: true,
             editable_2: false,
@@ -183,6 +203,10 @@ export default {
         }
     },
     methods: {
+        switchView_name() {
+            this.editable_name = !this.editable_name;
+            this.uneditable_name = !this.uneditable_name;
+        },
         switchView1() {
             this.editable_1 = !this.editable_1;
             this.uneditable_1 = !this.uneditable_1;
@@ -204,11 +228,13 @@ export default {
             this.uneditable_5 = !this.uneditable_5;
         },
         switchViewToUneditable() {
+            this.editable_name = false;
             this.editable_1 = false;
             this.editable_2 = false;
             this.editable_3 = false;
             this.editable_4 = false;
             this.editable_5 = false;
+            this.uneditable_name = true;
             this.uneditable_1 = true;
             this.uneditable_2 = true;
             this.uneditable_3 = true;
@@ -229,6 +255,7 @@ export default {
         },
         updateCategory(categoryId) {
             axios.post('/api/categoryedit/' + categoryId, {
+                name: this.category_edit.name,
                 memo: this.category_edit.memo,
                 rule1: this.category_edit.rule1,
                 rule2: this.category_edit.rule2,
