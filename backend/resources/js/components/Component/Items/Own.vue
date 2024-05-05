@@ -249,7 +249,7 @@ export default {
             modalItem: {},
             modalItemId: '',
             modalItemText: '',
-            id: this.$route.params.id,
+            // id: this.$route.params.id,
             dialog: false,
             dialog_view: false,
             dialog_edit: false,
@@ -286,10 +286,15 @@ export default {
             this.update_url = this.modalItem.url;
             this.update_memo = this.modalItem.memo;
         },
+        
+        $route: function () {
+            this.getItems();
+            console.log(this.items);
+        }
     },
     methods: {
         getItems() {
-            axios.get('api/ownitems/category/' + this.id)
+            axios.get('api/ownitems/category/' + this.$route.params.id)
                 .then((res) => {
                     this.items = res.data;
                 });
@@ -309,7 +314,7 @@ export default {
             formData.append('url', this.newitem.url)
             formData.append('memo', this.newitem.memo)
             axios
-                .post("api/storeownitem/" + this.id, formData)
+                .post("api/storeownitem/" + this.$route.params.id, formData)
                 .then((res) => {
                     console.log(res);
                     this.dialog_newitem = false;

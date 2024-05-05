@@ -17,6 +17,12 @@
 						$table->bigIncrements('id');
 						$table->string('name')->nullable();
 						$table->timestamps();
+                        $table->text('memo')->nullable();
+                        $table->text('rule1')->nullable();
+                        $table->text('rule2')->nullable();
+                        $table->text('rule3')->nullable();
+                        $table->text('rule4')->nullable();
+                        $table->text('rule5')->nullable();
 						$table->bigInteger('user_id')->unsigned();
                     //*********************************
                     // Foreign KEY [ Uncomment if you want to use!! ]

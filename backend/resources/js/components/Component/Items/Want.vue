@@ -174,7 +174,6 @@ export default {
             item: {},
             newitem: {},
             modalItem: {},
-            id: this.$route.params.id,
             dialog: false,
             fileInfo: '',
             dialog_view: false,
@@ -206,6 +205,10 @@ export default {
             this.update_url = this.modalItem.url;
             this.update_memo = this.modalItem.memo;
         },
+        // ルートパラメータのみの変更は自動では取得できないため、categoryが変更した時にItemsを再取得
+        $route: function () {
+            this.getItems();
+        }
     },
     methods: {
         fileSelected(event) {
@@ -264,7 +267,7 @@ export default {
             formData.append('url', this.newitem.url)
             formData.append('memo', this.newitem.memo)
             axios
-                .post("api/storewantitem/" + this.id, formData)
+                .post("api/storewantitem/" + this.$route.params.id, formData)
                 .then((res) => {
                     console.log(res);
                     this.dialog_newitem = false;
@@ -273,15 +276,15 @@ export default {
                     console.log(err);
                 });
         },
-        getWants() {
-            axios.get('api/wantitems/category/' + this.id)
+        getItems() {
+            axios.get('api/wantitems/category/' + this.$route.params.id)
                 .then((res) => {
                     this.items = res.data;
                 });
         },
     },
     mounted() {
-        this.getWants();
+        this.getItems();
     },
     beforeRouteUpdate(to, from, next) {
         const id = to.params.id;
