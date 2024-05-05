@@ -4,7 +4,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Rule from './components/Rule.vue';
-import CategoryEdit from './components/Pages/CategoryEditR1.vue';
 import Sort from './components/Pages/Sort.vue';
 import Home from './components/Pages/Home.vue';
 import Example from './components/ExampleComponent.vue';
@@ -46,11 +45,6 @@ const router = new VueRouter({
             path:'/rules',
             name:'rule.list',
             component:Rule,
-        },
-        {
-            path:'/categoryedit/:id',
-            name:'categoryedit',
-            component: CategoryEdit,
         },
         {
             path:'/example',

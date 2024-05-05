@@ -199,7 +199,7 @@
                     <v-btn text @click="updateCategory(modalCategory.id); getCategories()">
                         保存
                     </v-btn>
-                    <v-btn text @click="switchViewToUneditable()">
+                    <v-btn text @click="switchViewToUneditable(); dialog_view = false">
                         閉じる
                     </v-btn>
                 </v-card-actions>
@@ -321,6 +321,10 @@ export default {
         }
     },
     methods: {
+        // 変数名の中に変数を入れる
+        // const test = '変数名';
+        // this[test] = '代入したいもの'
+        // this.変数名 = '代入したいもの'
         switchView() {
             this.uneditable = !this.uneditable;
             this.editable = !this.editable;
@@ -350,7 +354,6 @@ export default {
             this.uneditable_5 = !this.uneditable_5;
         },
         switchViewToUneditable() {
-            this.dialog_view = false;
             this.getCategories();
             this.editable_name = false;
             this.editable_1 = false;
@@ -404,7 +407,9 @@ export default {
                 rule5: this.newCategory.rule5,
             })
                 .then((res) => {
-
+                    this.dialog_add = false;
+                    this.getCategories();
+                    this.clearNewCategory();
                 })
                 .catch((err) => {
                     console.log(err);
