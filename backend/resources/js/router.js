@@ -5,6 +5,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Rule from './components/Rule.vue';
 import Sort from './components/Pages/Sort.vue';
+import Select from './components/Pages/Select.vue';
 import Home from './components/Pages/Home.vue';
 import Example from './components/ExampleComponent.vue';
 
@@ -13,6 +14,11 @@ Vue.use(VueRouter);
 const router = new VueRouter({
     mode:'history',
     routes:[
+        {
+            path:'/select/:id',
+            name:'select',
+            component:Select,
+        },
         {
             path:'/ownitems/category/:id',
             name:'ownitems',
