@@ -17,6 +17,11 @@
                     使わなかったモノ
                 </v-btn>
             </router-link>
+            <router-link v-bind:to="{ name: 'select', params: { id: 1 } }">
+                <v-btn text>
+                    仕分け
+                </v-btn>
+            </router-link>
             <v-spacer></v-spacer>
             <v-responsive max-width="260">
                 <v-text-field dense flat hide-details rounded solo-inverted></v-text-field>
