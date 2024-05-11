@@ -418,7 +418,7 @@ export default {
         openViewDialog(category) {
             this.modalCategory = category;
             this.dialog_view = true;
-        }
+        },
 
     },
     mounted() {

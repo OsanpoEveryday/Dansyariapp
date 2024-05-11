@@ -48,7 +48,7 @@ Route::get('/rules','RuleController@index');
 // Route::get('/categoryedit/{categoryId}','RuleController@category');
 
 
-Route::get('/home','ItemUsageHistoryController@items');
+// Route::get('/select/{category}','ItemUsageHistoryController@getAndSortItems');
 
 Route::post('/home','ItemUsageHistoryController@recordTime');
 Route::post('/home/null','ItemUsageHistoryController@recordNull');

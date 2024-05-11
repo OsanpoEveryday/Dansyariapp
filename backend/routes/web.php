@@ -58,6 +58,13 @@ Route::prefix('api')->group(function() {
     Route::post('/categoryedit/rules/{rule}','RuleController@update');
 });
 
+Route::prefix('api')->group(function() {
+    Route::get('/select/{category}','ItemUsageHistoryController@getAndSortItems');
+    Route::post('/select/recordtime','ItemUsageHistoryController@recordTime');
+    Route::post('/select/recordtime','ItemUsageHistoryController@recordTime');
+    Route::post('/select/recordnull','ItemUsageHistoryController@recordNull');
+});
+
 
 Route::get('/{any}', function () {
     return view('app');
