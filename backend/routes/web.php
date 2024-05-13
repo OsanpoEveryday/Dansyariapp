@@ -12,6 +12,10 @@
 */
 Auth::routes();
 
+Route::prefix('api')->group(function(){
+    Route::post('logout','Auth\LoginController@logout');
+});
+
 // web.phpはデフォルトでセッションによる認証を通るように設定されている（api.phpはされていない）
 // ユーザーの認証が通っていなければ認可は通らない
 // パラメータを使用するもの以外では認可が必要ないことが多い
