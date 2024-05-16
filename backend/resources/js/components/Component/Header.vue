@@ -23,6 +23,7 @@
                 </v-btn>
             </router-link>
             <v-spacer></v-spacer>
+            <v-btn text @click="logout()">Logout</v-btn>
             <v-responsive max-width="260">
                 <v-text-field dense flat hide-details rounded solo-inverted></v-text-field>
             </v-responsive>
@@ -31,8 +32,21 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     data: () => ({
     }),
+    methods: {
+        logout() {
+            axios.post("api/logout")
+                .then((res) => {
+                    this.$router.push('/login');
+                    console.log(res);
+                }).catch((err) => {
+                    console.log(err);
+                })
+        }
+    },
 }
 </script>

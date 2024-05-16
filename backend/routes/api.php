@@ -22,6 +22,8 @@ use App\Item;
 //     return $request->user();
 // });
 
+
+
 Route::get('/categories', 'CategoryController@index');
 Route::post('/categories', 'CategoryController@store');
 Route::put('/categories/{category}', 'CategoryController@update');
