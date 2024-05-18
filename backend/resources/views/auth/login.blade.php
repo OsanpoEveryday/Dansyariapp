@@ -3,7 +3,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card border-dark">
+            <div class="card">
                 <div class="card-header text-white" style="background-color: black">{{ __('ログイン') }}</div>
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">
