@@ -41,7 +41,8 @@ export default {
         logout() {
             axios.post("api/logout")
                 .then((res) => {
-                    this.$router.push('/login');
+                    // this.$router.push('/login');
+                    location.href = "/login";
                     console.log(res);
                 }).catch((err) => {
                     console.log(err);
