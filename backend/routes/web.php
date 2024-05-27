@@ -22,7 +22,6 @@ Route::prefix('api')->group(function(){
 Route::prefix('api')->group(function() {
     // Route::get('/ownitems/category/{category}', 'ItemController@ownItems')
     // ->middleware('can:userItem,category');
-
     Route::get('/ownitems/category/{category}', 'ItemController@ownItems')
     ->middleware('can:userCategory,category');
 
@@ -45,17 +44,19 @@ Route::prefix('api')->group(function() {
     Route::post('/storedisuseitem/{category}', 'ItemController@storeDisuseItem')
     ->middleware('auth');
     
-    Route::post('/edititem/{item}', 'ItemController@update');
-
+    Route::post('/edititem/{item}', 'ItemController@update')
+    ->middleware('can:userItem,item');
     
 });
 
 
 Route::prefix('api')->group(function() {
     Route::get('/categories', 'CategoryController@index');
-    Route::get('/categoryedit/{categoryId}', 'CategoryController@show');
-    Route::post('/categoryedit/{category}', 'CategoryController@update');
-    Route::post('/categories', 'CategoryController@store');
+    // Route::get('/categoryedit/{categoryId}', 'CategoryController@show');
+    Route::post('/categoryedit/{category}', 'CategoryController@update')
+    ->middleware('can:userCategory,category');
+    Route::post('/categories', 'CategoryController@store')
+    ->middleware('auth');
 });
 
 Route::prefix('api')->group(function() {
@@ -63,10 +64,12 @@ Route::prefix('api')->group(function() {
 });
 
 Route::prefix('api')->group(function() {
-    Route::get('/select/{category}','ItemUsageHistoryController@getAndSortItems');
-    Route::post('/select/recordtime','ItemUsageHistoryController@recordTime');
-    Route::post('/select/recordtime','ItemUsageHistoryController@recordTime');
-    Route::post('/select/recordnull','ItemUsageHistoryController@recordNull');
+    Route::get('/select/{category}','ItemUsageHistoryController@getAndSortItems')
+    ->middleware('can:userCategory,category');
+    Route::post('/select/recordtime','ItemUsageHistoryController@recordTime')
+    ->middleware('auth');
+    Route::post('/select/recordnull','ItemUsageHistoryController@recordNull')
+    ->middleware('auth');
 });
 
 
