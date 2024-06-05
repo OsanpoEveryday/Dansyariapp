@@ -289,7 +289,6 @@
 
 export default {
     // name:CategoryComponent,
-
     data() {
         return {
             categoryValue: this.category,
@@ -297,6 +296,7 @@ export default {
             category: {},
             modalCategory: {},
             newCategory: {},
+            errors: {},
             id: this.$route.params.id,
             dialog_add: false,
             dialog_view: false,
@@ -411,8 +411,8 @@ export default {
                     this.getCategories();
                     this.clearNewCategory();
                 })
-                .catch((err) => {
-                    console.log(err);
+                .catch((error) => {
+                    console.log(error.response.data.errors);
                 });
         },
         openViewDialog(category) {

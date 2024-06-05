@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreCategoryRequest;
 use App\Category;
 use Illuminate\Support\Facades\Auth;
 
@@ -12,7 +12,7 @@ class CategoryController extends Controller
         $categories=Category::with('rules')->where('user_id', Auth::user()->id)->get();
         return $categories;
     }
-    public function store(Request $request){
+    public function store(StoreCategoryRequest $request){
         // \Log::info(Auth::id());
         $category=new Category;
         $category->user_id=Auth::id();
@@ -28,7 +28,6 @@ class CategoryController extends Controller
     // public function show(Category $category){
     //     return $category;
     // }
-    // は
     //     public function show($categoryId)
     // {
     //       $category = Category::find($categoryId);
