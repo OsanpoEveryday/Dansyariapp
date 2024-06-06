@@ -12,6 +12,12 @@ class CategoryController extends Controller
         $categories=Category::with('rules')->where('user_id', Auth::user()->id)->get();
         return $categories;
     }
+
+    public function getFirstCategory(){
+        $first_category = Category::where('user_id', Auth::user()->id)->first()->get();
+        \Log::info($first_category);
+    }
+
     public function store(Request $request){
         // \Log::info(Auth::id());
         $category=new Category;
