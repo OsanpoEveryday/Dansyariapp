@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
+use Illuminate\Http\Request;
 use App\Category;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,7 +36,7 @@ class CategoryController extends Controller
     //        return $category;
     // }
     // を簡略化した書き方
-    public function update(Request $request, Category $category){
+    public function update(UpdateCategoryRequest $request, Category $category){
         $category->name=$request->name;
         $category->memo=$request->memo;
         $category->rule1=$request->rule1;

@@ -40,6 +40,11 @@
                             </v-list-item-title>
                             <v-text-field v-model="update_name" required v-show="editable">
                             </v-text-field>
+                            <div v-if="errors.name" class="error_validation">
+                                <div v-for="e in errors.name">
+                                    {{ e }}
+                                </div>
+                            </div>
                             <v-list-item-subtitle v-if="modalItem.category">
                                 <!-- modalItemがnullの時にmodalItem.category.nameは表示できない=>modalItemに値がある時に表示 -->
                                 {{ modalItem.category.name }}
@@ -54,6 +59,7 @@
                             </v-list-item-title>
                             <v-text-field type="number" v-model="update_amount" required v-show="editable">
                             </v-text-field>
+                            <div v-if="errors.amount" class="error_validation">{{ errors.amount[0] }}</div>
                             <v-divider class="mx-4 my-2"></v-divider>
                             <div class="my-3 text-subtitle-1">収納場所</div>
                             <v-list-item-title v-show="uneditable">
@@ -61,6 +67,7 @@
                             </v-list-item-title>
                             <v-text-field v-model="update_place" required v-show="editable">
                             </v-text-field>
+                            <div v-if="errors.place" class="error_validation">{{ errors.place[0] }}</div>
                             <v-divider class="mx-4 my-2"></v-divider>
                             <div class="my-3 text-subtitle-1">購入場所</div>
                             <v-list-item-title v-show="uneditable">
@@ -68,6 +75,8 @@
                             </v-list-item-title>
                             <v-text-field v-model="update_purchase_from" required v-show="editable">
                             </v-text-field>
+                            <div v-if="errors.purchase_from" class="error_validation">{{ errors.purchase_from[0] }}
+                            </div>
                             <v-divider class="mx-4 my-2"></v-divider>
                             <div class="my-3 text-subtitle-1">購入日</div>
                             <v-list-item-title v-show="uneditable">
@@ -89,6 +98,7 @@
                             </v-list-item-title>
                             <v-text-field v-model="update_url" v-show="editable">
                             </v-text-field>
+                            <div v-if="errors.url" class="error_validation">{{ errors.url[0] }}</div>
                             <v-divider class="mx-4 my-2"></v-divider>
                             <div class="my-3 text-subtitle-1">メモ</div>
                             <v-list-item-content v-show="uneditable">
@@ -96,6 +106,7 @@
                             </v-list-item-content>
                             <v-textarea v-model="update_memo" :value="modalItem.memo" required v-show="editable">
                             </v-textarea>
+                            <div v-if="errors.memo" class="error_validation">{{ errors.memo[0] }}</div>
                             <v-divider class="mx-4 my-2"></v-divider>
                         </v-list-item-content>
                     </v-list-item>
@@ -126,16 +137,30 @@
                             <div class="my-3 text-h6">アイテム名</div>
                             <v-text-field v-model="newitem.name" required>
                             </v-text-field>
+                            <div v-if="errors.name" class="error_validation">
+                                <div v-for="e in errors.name">
+                                    {{ e }}
+                                </div>
+                            </div>
                             <input type="file" @change="fileSelected">
+                            <div v-if="errors.item_image" class="error_validation">
+                                <div v-for="e in errors.item_image">
+                                    {{ e }}
+                                </div>
+                            </div>
                             <div class="my-3 text-subtitle-1">購入金額</div>
                             <v-text-field type="number" v-model="newitem.amount">
                             </v-text-field>
+                            <div v-if="errors.amount" class="error_validation">{{ errors.amount[0] }}</div>
                             <div class="my-3 text-subtitle-1">収納場所</div>
                             <v-text-field v-model="newitem.place" required>
                             </v-text-field>
+                            <div v-if="errors.place" class="error_validation">{{ errors.place[0] }}</div>
                             <div class="my-3 text-subtitle-1">購入場所</div>
                             <v-text-field v-model="newitem.purchase_from" required>
                             </v-text-field>
+                            <div v-if="errors.purchase_from" class="error_validation">{{ errors.purchase_from[0] }}
+                            </div>
                             <div class="my-3 text-subtitle-1">購入日</div>
                             <v-text-field type="date" v-model="newitem.purchase_date">
                             </v-text-field>
@@ -145,9 +170,11 @@
                             <div class="my-3 text-subtitle-1">URL</div>
                             <v-text-field v-model="newitem.url">
                             </v-text-field>
+                            <div v-if="errors.url" class="error_validation">{{ errors.url[0] }}</div>
                             <div class="my-3 text-subtitle-1">メモ</div>
                             <v-textarea v-model="newitem.memo" :value="modalItem.memo">
                             </v-textarea>
+                            <div v-if="errors.memo" class="error_validation">{{ errors.memo[0] }}</div>
                             <v-divider class="mx-4 my-2"></v-divider>
                         </v-list-item-content>
                     </v-list-item>
@@ -157,7 +184,7 @@
                     <v-btn color="gray" text @click.stop="dialog_newitem = false">
                         閉じる
                     </v-btn>
-                    <v-btn color="gray" text @click.stop="upload()">
+                    <v-btn color="gray" text @click.stop="upload">
                         追加
                     </v-btn>
                 </v-card-actions>
@@ -166,13 +193,22 @@
     </div>
 </template>
 
+<style scoped>
+.error_validation {
+    background-color: transparent;
+    color: red;
+}
+</style>
+
 <script>
 export default {
     data() {
         return {
             items: [],
             item: {},
-            newitem: {},
+            newitem: {
+                name: '',
+            },
             modalItem: {},
             dialog: false,
             fileInfo: '',
@@ -190,6 +226,7 @@ export default {
 
             uneditable: true,
             editable: false,
+            errors: {},
             // image_path: this.want.image_path
         }
     },
@@ -221,6 +258,7 @@ export default {
         switchView() {
             this.uneditable = !this.uneditable;
             this.editable = !this.editable;
+            this.errors = {};
         },
         editItem(id) {
             axios
@@ -252,7 +290,7 @@ export default {
                     this.uneditable = true;
                 })
                 .catch((err) => {
-                    console.log(err);
+                    this.errors = err.response.data.errors;
                 });
         },
         upload() {
@@ -273,7 +311,7 @@ export default {
                     this.dialog_newitem = false;
                 })
                 .catch((err) => {
-                    console.log(err);
+                    this.errors = err.response.data.errors;
                 });
         },
         getItems() {

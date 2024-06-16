@@ -98,6 +98,8 @@
                     <v-text-field color="grey-darken-1" class="my-auto" v-show="editable_name"
                         v-model="modalCategory.name">
                     </v-text-field>
+                    <div v-if="errors.name" class="error_validation">{{ errors.name[0] }}</div>
+                    <div v-if="errors.name" class="error_validation">{{ errors.name[1] }}</div>
                     <v-spacer></v-spacer>
                 </v-toolbar>
                 <v-list-item>
@@ -108,6 +110,7 @@
                         <v-textarea color="grey-darken-1" class="mt-3" label="モノに対する考え方を自由に書いてみましょう" outlined
                             v-model="modalCategory.memo">
                         </v-textarea>
+                        <div v-if="errors.memo" class="error_validation">{{ errors.memo[0] }}</div>
                         <div class="parent" v-show="uneditable_1">
                             <v-list-item-title>
                                 ルール１: {{ modalCategory.rule1 }}
@@ -121,6 +124,7 @@
                                 <v-col cols="12">
                                     <v-text-field color="grey-darken-1" label="ルール１" v-model="modalCategory.rule1">
                                     </v-text-field>
+                                    <div v-if="errors.rule1" class="error_validation">{{ errors.rule1[0] }}</div>
                                 </v-col>
                             </v-row>
                         </v-list-item-title>
@@ -138,6 +142,7 @@
                                 <v-col cols="12">
                                     <v-text-field color="grey-darken-1" label="ルール２" v-model="modalCategory.rule2">
                                     </v-text-field>
+                                    <div v-if="errors.rule2" class="error_validation">{{ errors.rule2[0] }}</div>
                                 </v-col>
                             </v-row>
                         </v-list-item-title>
@@ -155,6 +160,7 @@
                                 <v-col cols="12">
                                     <v-text-field color="grey-darken-1" label="ルール３" v-model="modalCategory.rule3">
                                     </v-text-field>
+                                    <div v-if="errors.rule3" class="error_validation">{{ errors.rule3[0] }}</div>
                                 </v-col>
                             </v-row>
                         </v-list-item-title>
@@ -172,6 +178,7 @@
                                 <v-col cols="12">
                                     <v-text-field color="grey-darken-1" label="ルール４" v-model="modalCategory.rule4">
                                     </v-text-field>
+                                    <div v-if="errors.rule4" class="error_validation">{{ errors.rule4[0] }}</div>
                                 </v-col>
                             </v-row>
                         </v-list-item-title>
@@ -189,6 +196,7 @@
                                 <v-col cols="12">
                                     <v-text-field color="grey-darken-1" label="ルール５" v-model="modalCategory.rule5">
                                     </v-text-field>
+                                    <div v-if="errors.rule5" class="error_validation">{{ errors.rule5[0] }}</div>
                                 </v-col>
                             </v-row>
                         </v-list-item-title>
@@ -219,31 +227,39 @@
                         <v-list-item-title>
                             <v-text-field color="grey-darken-1" label="カテゴリ名" v-model="newCategory.name">
                             </v-text-field>
+                            <div v-if="errors.name" class="error_validation">{{ errors.name[0] }}</div>
+                            <div v-if="errors.name" class="error_validation">{{ errors.name[1] }}</div>
                         </v-list-item-title>
                         <v-list-item-title class="mt-2">
                             <v-textarea class="mt-2" color="grey-darken-1" label="メモ：モノに対する考え方を自由に書いてみましょう" outlined
                                 v-model="newCategory.memo">
                             </v-textarea>
+                            <div v-if="errors.memo" class="error_validation">{{ errors.memo[0] }}</div>
                         </v-list-item-title>
                         <v-list-item-title>
                             <v-text-field color="grey-darken-1" label="ルール１:" v-model="newCategory.rule1">
                             </v-text-field>
+                            <div v-if="errors.rule1" class="error_validation">{{ errors.rule1[0] }}</div>
                         </v-list-item-title>
                         <v-list-item-title>
                             <v-text-field color="grey-darken-1" label="ルール２:" v-model="newCategory.rule2">
                             </v-text-field>
+                            <div v-if="errors.rule2" class="error_validation">{{ errors.rule2[0] }}</div>
                         </v-list-item-title>
                         <v-list-item-title>
                             <v-text-field color="grey-darken-1" label="ルール３:" v-model="newCategory.rule3">
                             </v-text-field>
+                            <div v-if="errors.rule3" class="error_validation">{{ errors.rule3[0] }}</div>
                         </v-list-item-title>
                         <v-list-item-title>
                             <v-text-field color="grey-darken-1" label="ルール４:" v-model="newCategory.rule4">
                             </v-text-field>
+                            <div v-if="errors.rule4" class="error_validation">{{ errors.rule4[0] }}</div>
                         </v-list-item-title>
                         <v-list-item-title>
                             <v-text-field color="grey-darken-1" label="ルール５:" v-model="newCategory.rule5">
                             </v-text-field>
+                            <div v-if="errors.rule5" class="error_validation">{{ errors.rule5[0] }}</div>
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
@@ -254,7 +270,7 @@
                     <v-btn text @click="addCategory()">
                         保存
                     </v-btn>
-                    <v-btn text @click="dialog_add = false">
+                    <v-btn text @click="closeDialogAdd()">
                         閉じる
                     </v-btn>
                 </v-card-actions>
@@ -279,6 +295,11 @@
 
 .parent {
     display: flex;
+}
+
+.error_validation {
+    background-color: transparent;
+    color: red;
 }
 </style>
 
@@ -367,6 +388,7 @@ export default {
             this.uneditable_3 = true;
             this.uneditable_4 = true;
             this.uneditable_5 = true;
+            this.errors = {};
         },
         getCategories() {
             axios.get('/api/categories')
@@ -385,6 +407,8 @@ export default {
                 rule5: this.modalCategory.rule5
             }).then((res) => {
                 this.switchViewToUneditable();
+            }).catch((err) => {
+                this.errors = err.response.data.errors;
             });
         },
         deleteCategory() {
@@ -411,9 +435,14 @@ export default {
                     this.getCategories();
                     this.clearNewCategory();
                 })
-                .catch((error) => {
-                    console.log(error.response.data.errors);
+                .catch((err) => {
+                    this.errors = err.response.data.errors;
+                    console.log(this.errors);
                 });
+        },
+        closeDialogAdd() {
+            this.dialog_add = false;
+            this.errors = {};
         },
         openViewDialog(category) {
             this.modalCategory = category;
