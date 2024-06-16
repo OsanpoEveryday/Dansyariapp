@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\UpdateItemRequest;
 
 use Illuminate\Http\Request;
 use App\Item;
@@ -48,7 +50,7 @@ class ItemController extends Controller
     // 認可
     // ユーザーの認証が通っていれば良いなら認可を使う必要はない
     // メソッドの引数はルーティングのルートパラメータにつながっている
-    public function storeWantItem(Request $request, Category $category){
+    public function storeWantItem(StoreItemRequest $request, Category $category){
         $filePath = $request->item_image->store('public');
         $filePath = '/storage'.str_replace('public','',$filePath); 
         //$disuse_monthに制限を追加
@@ -62,21 +64,25 @@ class ItemController extends Controller
             ->withInput();
         }
         $item = new Item;
-        // Authを使うにはweb.php上に書く必要あり
         $item->user_id = Auth::user()->id;
         $item->name = $request->name;
+        $item->amount = $request->amount;
+        $item->place = $request->place;
+        $item->purchase_from = $request->purchase_from;
+        $item->purchase_date = $request->purchase_date;
+        $item->disuse_month = $request->disuse_month;
+        $item->url = $request->url;
+        $item->memo = $request->memo;
         $item->image_path = $filePath;
         $item->category_id = $category->id;
-        $item->want = true;
+        $item->want = false;
         $item->is_unnecessary = false;
-        $item->disuse_month = $request->disuse_month;
-        // use_atに追加時の時間を入力(nullだとItemUsageHistoryControllerでエラーが起こる)
         $item->itemUsageHistories->use_at = now();
         $item->save();
         return $item;
     }
 
-    public function storeOwnItem(Request $request, Category $category){
+    public function storeOwnItem(StoreItemRequest $request, Category $category){
         $filePath = $request->item_image->store('public');
         $filePath = '/storage'.str_replace('public','',$filePath); 
         //$disuse_monthに制限を追加
@@ -140,7 +146,7 @@ class ItemController extends Controller
         dd($item);
         return $item;
     }
-    public function update(Request $request, Item $item){
+    public function update(UpdateItemRequest $request, Item $item){
         $item->name = $request->name;
         $item->amount = $request->amount;
         $item->place = $request->place;

@@ -16,7 +16,7 @@
                 Schema::create("items", function (Blueprint $table) {
 
 						$table->increments('id');
-						$table->string('name')->nullable();
+						$table->string('name');
 						$table->bigInteger('category_id')->unsigned();
                         $table->bigInteger('user_id')->unsigned();
 						$table->string('image_path')->nullable();
