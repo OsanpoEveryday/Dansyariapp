@@ -28,8 +28,15 @@ class LoginController extends Controller
      *
      * @var string
      */
+
     // protected $redirectTo = RouteServiceProvider::HOME;
-    protected $redirectTo = RouteServiceProvider::HOME;
+    // ログイン後のページ書き換え
+    protected function redirectTo(){
+        $categories = Auth::user()->categories;
+        $first_category_id = $categories->sortBy('id')->first()->id;
+        \Log::info($first_category_id);
+        return '/ownitems/category/'.$first_category_id;
+    }
 
     /**
      * Create a new controller instance.
