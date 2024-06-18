@@ -13,12 +13,7 @@ class CategoryController extends Controller
         return $categories;
     }
 
-    public function getFirstCategory(){
-        $first_category = Category::where('user_id', Auth::user()->id)->first()->get();
-        \Log::info($first_category);
-    }
-
-    public function store(Request $request){
+    public function store(StoreCategoryRequest $request){
         // \Log::info(Auth::id());
         $category=new Category;
         $category->user_id=Auth::id();
