@@ -12,7 +12,6 @@ class CategoryController extends Controller
         $categories=Category::with('rules')->where('user_id', Auth::user()->id)->get();
         return $categories;
     }
-
     public function store(StoreCategoryRequest $request){
         // \Log::info(Auth::id());
         $category=new Category;
