@@ -108,6 +108,9 @@
                     <v-btn color="gray" text @click.stop="switchView()" v-show="uneditable">
                         編集
                     </v-btn>
+                    <v-btn color="gray" text @click.stop="deleteItem(modalItem.id)" v-show="editable">
+                        削除
+                    </v-btn>
                     <v-btn color="gray" text @click.stop="switchView()" v-show="editable">
                         戻る
                     </v-btn>
@@ -322,6 +325,19 @@ export default {
                     console.log(err);
                 });
         },
+        deleteItem(id) {
+            axios
+                .delete("api/items/" + id)
+                .then((res) => {
+                    this.items = this.items.filter(item => item.id !== id);
+                    this.dialog_view = false;
+                    this.editable = false;
+                    this.uneditable = true;
+                })
+                .catch((err) => {
+                    alert(err.response.data.message);
+                });
+        },
         upload() {
             const formData = new FormData()
             formData.append('item_image', this.fileInfo)
@@ -348,12 +364,6 @@ export default {
                 .then((res) => {
                     this.items = res.data;
                 });
-        },
-        deleteItem(id) {
-            axios.delete('api/items/' + id).then((res) => {
-                console.log(res);
-                this.items.splice(id, 1)
-            });
         },
     },
     mounted() {

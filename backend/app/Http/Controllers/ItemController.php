@@ -20,6 +20,7 @@ class ItemController extends Controller
     // OK
     public function disuseItems(Category $category){
         $items=Item::where([
+            ['user_id', Auth::user()->id],
             ['category_id', $category->id],
             ['is_unnecessary',1]
             ])->get();
@@ -29,6 +30,7 @@ class ItemController extends Controller
     // OK
     public function ownItems(Category $category){
         $items=Item::with('category')->where([
+            ['user_id', Auth::user()->id],
             ['category_id', $category->id],
             ['is_unnecessary',0],
             ['want',0],
@@ -40,6 +42,7 @@ class ItemController extends Controller
     // OK (urlを変更)
     public function wantItems(Category $category){
         $items=Item::where([
+            ['user_id', Auth::user()->id],
             ['category_id', $category->id],
             ['is_unnecessary',false],
             ['want',true],

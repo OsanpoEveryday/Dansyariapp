@@ -28,6 +28,7 @@ class LoginController extends Controller
      *
      * @var string
      */
+    
     // protected $redirectTo = RouteServiceProvider::HOME;
     // ログイン後のページ書き換え
     protected function redirectTo(){
