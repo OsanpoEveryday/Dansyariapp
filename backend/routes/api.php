@@ -27,7 +27,6 @@ use App\Item;
 Route::get('/categories', 'CategoryController@index');
 Route::post('/categories', 'CategoryController@store');
 Route::put('/categories/{category}', 'CategoryController@update');
-Route::delete('/categories/{category}', 'CategoryController@destroy');
 
 // Route::get('/ownitems/category/{category}', 'ItemController@ownItems');
 // Route::get('/wantitems/category/{category}', 'ItemController@wantItems');
