@@ -34,7 +34,6 @@ class LoginController extends Controller
     protected function redirectTo(){
         $categories = Auth::user()->categories;
         $first_category_id = $categories->sortBy('id')->first()->id;
-        \Log::info($first_category_id);
         return '/ownitems/category/'.$first_category_id;
     }
 

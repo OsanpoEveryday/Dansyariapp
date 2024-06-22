@@ -57,6 +57,8 @@ Route::prefix('api')->group(function() {
     ->middleware('can:userCategory,category');
     Route::post('/categories', 'CategoryController@store')
     ->middleware('auth');
+    Route::delete('/deletecategory/{category}', 'CategoryController@destroy')
+    ->middleware('can:userCategory,category');
 });
 
 Route::prefix('api')->group(function() {

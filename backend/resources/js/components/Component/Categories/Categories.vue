@@ -204,11 +204,14 @@
                     </v-list-item-content>
                 </v-list-item>
                 <v-card-actions class="d-flex justify-end">
-                    <v-btn text @click="updateCategory(modalCategory.id); getCategories()">
-                        保存
+                    <v-btn text @click="deleteCategory(modalCategory.id)">
+                        削除
                     </v-btn>
                     <v-btn text @click="switchViewToUneditable(); dialog_view = false">
                         閉じる
+                    </v-btn>
+                    <v-btn text @click="updateCategory(modalCategory.id); getCategories()">
+                        保存
                     </v-btn>
                 </v-card-actions>
             </v-card>
@@ -411,11 +414,22 @@ export default {
                 this.errors = err.response.data.errors;
             });
         },
-        deleteCategory() {
-            axios.delete(`api/categories/${this.category.id}`).then((res) => {
-                this.$emit('getCategoriesFromChild')
-                // 表示側のみ変える
-            })
+        deleteCategory(id) {
+            axios
+                .delete("api/deletecategory/" + id)
+                .then((res) => {
+                    this.categories = this.categories.filter(category => category.id !== id);
+                    this.dialog_view = false;
+                    this.editable = false;
+                    this.uneditable = true;
+                    this.$router.push({
+                        name: this.$route.name,
+                        params: { ...this.$route.params, id: this.categories[0].id }
+                    });
+                })
+                .catch((err) => {
+                    alert(err.response.data.message);
+                });
         },
         clearNewCategory() {
             this.newCategory = {}
@@ -452,6 +466,7 @@ export default {
     },
     mounted() {
         this.getCategories();
+        console.log(this.$route.params);
     },
 }
 </script>
