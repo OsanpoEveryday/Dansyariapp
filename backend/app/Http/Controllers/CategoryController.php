@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+    public function getLinks(){
+        $categories = Auth::user()->categories;
+        $first_category_id = $categories->sortBy('id')->first()->id;
+        $ownitems_link = '/ownitems/category/'.$first_category_id; 
+        $wantitems_link = '/wantitems/category/'.$first_category_id; 
+        $disuseitems_link = '/disuseitems/category/'.$first_category_id; 
+        $select_link = '/select/'.$first_category_id; 
+        return compact('ownitems_link','wantitems_link','disuseitems_link','select_link');
+    }
+
     public function index(){
         $categories=Category::with('rules')->where('user_id', Auth::user()->id)->get();
         return $categories;

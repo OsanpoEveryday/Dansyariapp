@@ -2,22 +2,22 @@
     <v-app-bar app color="white" flat>
         <v-container class="py-0 fill-height">
             <v-avatar class="mr-10" color="grey darken-1" size="32"></v-avatar>
-            <router-link v-bind:to="{ name: 'ownitems', params: { id: 1 } }">
+            <router-link v-bind:to=this.links.ownitems_link>
                 <v-btn text>
                     持ちモノ
                 </v-btn>
             </router-link>
-            <router-link v-bind:to="{ name: 'wantitems', params: { id: 1 } }">
+            <router-link v-bind:to=this.links.wantitems_link>
                 <v-btn text>
                     欲しいモノ
                 </v-btn>
             </router-link>
-            <router-link v-bind:to="{ name: 'disuseitems', params: { id: 1 } }">
+            <router-link v-bind:to=this.links.disuseitems_link>
                 <v-btn text>
                     使わなかったモノ
                 </v-btn>
             </router-link>
-            <router-link v-bind:to="{ name: 'select', params: { id: 1 } }">
+            <router-link v-bind:to=this.links.select_link>
                 <v-btn text>
                     仕分け
                 </v-btn>
@@ -35,9 +35,19 @@
 import axios from 'axios';
 
 export default {
-    data: () => ({
-    }),
+    data() {
+        return {
+            links: "",
+        }
+    },
     methods: {
+        getLinks() {
+            axios.get("api/getlinks")
+                .then((res) => {
+                    this.links = res.data;
+                    console.log(this.links)
+                });
+        },
         logout() {
             axios.post("api/logout")
                 .then((res) => {
@@ -48,6 +58,9 @@ export default {
                     console.log(err);
                 })
         }
+    },
+    mounted() {
+        this.getLinks();
     },
 }
 </script>

@@ -22,6 +22,10 @@ Route::prefix('api')->group(function(){
 Route::prefix('api')->group(function() {
     // Route::get('/ownitems/category/{category}', 'ItemController@ownItems')
     // ->middleware('can:userItem,category');
+
+    Route::get('/getlinks', 'CategoryController@getLinks')
+    ->middleware('auth');
+
     Route::get('/ownitems/category/{category}', 'ItemController@ownItems')
     ->middleware('can:userCategory,category');
 
