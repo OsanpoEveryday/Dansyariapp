@@ -22,9 +22,17 @@ class RuleController extends Controller
         return $rule;
     }
 
-    public function store(Request $request){
-        Rule::create([
-            'text' => $request->text,
-        ]);
+    public function store(Request $request, Category $category){
+        $rule = new Rule;
+        $rule->category_id = $category->id;
+        $rule->text = $request->text;
+        $rule->save();
+        return $rule;
+    }
+
+    public function destroy(Rule $rule){
+        $rule->delete();
     }
 }
+
+

@@ -62,7 +62,11 @@ Route::prefix('api')->group(function() {
 });
 
 Route::prefix('api')->group(function() {
-    Route::post('/categoryedit/rules/{rule}','RuleController@update');
+    Route::post('/storerule/{category}','RuleController@store');
+    Route::post('/editrule/{rule}','RuleController@update')
+    ->middleware('can:userCategoryRule,rule');
+    Route::post('/deleterule/{rule}','RuleController@destroy')
+    ->middleware('can:userCategoryRule,rule');
 });
 
 Route::prefix('api')->group(function() {

@@ -86,17 +86,16 @@
             <!-- v-if="$route.path.includes('ownitems/category')"で特定文字列を含むものを指定可能 -->
         </v-card>
         <!-- カテゴリ詳細ダイアログ -->
-        <v-dialog v-model="dialog_view" persistent max-width="500px">
-            <v-card min-height="70vh" rounded="lg">
+        <v-dialog v-model="dialog_view" persistent max-width="600px">
+            <v-card rounded="lg">
                 <v-toolbar dark>
-                    <v-toolbar-title class="parent" v-show="uneditable_name">
+                    <v-toolbar-title class="parent" v-show="uneditable">
                         {{ modalCategory.name }}
-                        <v-btn class="child" text @click="switchView_name()">
+                        <!-- <v-btn class="child" text @click="switchView_name()">
                             <i class="fa-regular fa-pen-to-square"></i>
-                        </v-btn>
+                        </v-btn> -->
                     </v-toolbar-title>
-                    <v-text-field color="grey-darken-1" class="my-auto" v-show="editable_name"
-                        v-model="modalCategory.name">
+                    <v-text-field color="grey-darken-1" class="my-auto" v-show="editable" v-model="modalCategory.name">
                     </v-text-field>
                     <div v-if="errors.name" class="error_validation">{{ errors.name[0] }}</div>
                     <div v-if="errors.name" class="error_validation">{{ errors.name[1] }}</div>
@@ -105,13 +104,54 @@
                 <v-list-item>
                     <v-list-item-content>
                         <v-list-item-title>
-                            メモ
+                            ━ メモ ━
                         </v-list-item-title>
                         <v-textarea color="grey-darken-1" class="mt-3" label="モノに対する考え方を自由に書いてみましょう" outlined
                             v-model="modalCategory.memo">
                         </v-textarea>
                         <div v-if="errors.memo" class="error_validation">{{ errors.memo[0] }}</div>
-                        <div class="parent" v-show="uneditable_1">
+
+                        <v-list-item-title class="mb-4">
+                            ━ ルール ━
+                        </v-list-item-title>
+                        <!-- ルール追加 -->
+                        <v-list-item-title>
+                            <v-row v-show="editable">
+                                <v-col cols="9">
+                                    <v-text-field color="grey-darken-1" label="＋新しいルール" v-model="newrule_text">
+                                    </v-text-field>
+                                    <div v-if="errors.rule1" class="error_validation"></div>
+                                </v-col>
+                                <v-col cols="3">
+                                    <v-btn class="gray" @click="addRule()">追加</v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-list-item-title>
+                        <!-- ルール表示 -->
+                        <div v-for="rule in modalCategory.rules" :key="rule.id">
+                            <div v-show="uneditable">
+                                <v-list-item-title>
+                                    ルール:{{ rule.text }}
+                                </v-list-item-title>
+                            </div>
+                            <v-divider class="my-4"></v-divider>
+                            <v-list-item-title>
+                                <v-row v-show="editable">
+                                    <v-col cols="8">
+                                        <v-text-field color="grey-darken-1" label="ルール" v-model="rule.text">
+                                        </v-text-field>
+                                        <div v-if="errors.rule1" class="error_validation">{{ errors.rule1[0] }}</div>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-btn class="gray" @click="updateRule(rule)">更新</v-btn>
+                                    </v-col>
+                                    <v-col cols="2">
+                                        <v-btn class="gray" @click="deleteRule(rule)">削除</v-btn>
+                                    </v-col>
+                                </v-row>
+                            </v-list-item-title>
+                        </div>
+                        <!-- <div class="parent" v-show="uneditable_1">
                             <v-list-item-title>
                                 ルール１: {{ modalCategory.rule1 }}
                             </v-list-item-title>
@@ -200,25 +240,31 @@
                                 </v-col>
                             </v-row>
                         </v-list-item-title>
-                        <v-divider class="my-4"></v-divider>
+                        <v-divider class="my-4"></v-divider> -->
                     </v-list-item-content>
                 </v-list-item>
                 <v-card-actions class="d-flex justify-end">
-                    <v-btn text @click="deleteCategory(modalCategory.id)">
+                    <v-btn text v-show="editable" @click="deleteCategory(modalCategory.id)">
                         削除
                     </v-btn>
-                    <v-btn text @click="switchViewToUneditable(); dialog_view = false">
+                    <v-btn text v-show="uneditable" @click="switchViewToUneditable(); dialog_view = false">
                         閉じる
                     </v-btn>
-                    <v-btn text @click="updateCategory(modalCategory.id); getCategories()">
+                    <v-btn text v-show="editable" @click="updateCategory(modalCategory.id); getCategories()">
                         保存
+                    </v-btn>
+                    <v-btn text v-show="editable" @click.stop="switchView()">
+                        戻る
+                    </v-btn>
+                    <v-btn text v-show="uneditable" @click="switchView()">
+                        編集
                     </v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
 
         <!-- カテゴリ追加ダイアログ -->
-        <v-dialog v-model="dialog_add" persistent max-width="500px">
+        <v-dialog v-model="dialog_add" persistent max-width="600px">
             <v-card>
                 <v-toolbar dark>
                     <v-toolbar-title>
@@ -240,29 +286,16 @@
                             <div v-if="errors.memo" class="error_validation">{{ errors.memo[0] }}</div>
                         </v-list-item-title>
                         <v-list-item-title>
-                            <v-text-field color="grey-darken-1" label="ルール１:" v-model="newCategory.rule1">
-                            </v-text-field>
-                            <div v-if="errors.rule1" class="error_validation">{{ errors.rule1[0] }}</div>
-                        </v-list-item-title>
-                        <v-list-item-title>
-                            <v-text-field color="grey-darken-1" label="ルール２:" v-model="newCategory.rule2">
-                            </v-text-field>
-                            <div v-if="errors.rule2" class="error_validation">{{ errors.rule2[0] }}</div>
-                        </v-list-item-title>
-                        <v-list-item-title>
-                            <v-text-field color="grey-darken-1" label="ルール３:" v-model="newCategory.rule3">
-                            </v-text-field>
-                            <div v-if="errors.rule3" class="error_validation">{{ errors.rule3[0] }}</div>
-                        </v-list-item-title>
-                        <v-list-item-title>
-                            <v-text-field color="grey-darken-1" label="ルール４:" v-model="newCategory.rule4">
-                            </v-text-field>
-                            <div v-if="errors.rule4" class="error_validation">{{ errors.rule4[0] }}</div>
-                        </v-list-item-title>
-                        <v-list-item-title>
-                            <v-text-field color="grey-darken-1" label="ルール５:" v-model="newCategory.rule5">
-                            </v-text-field>
-                            <div v-if="errors.rule5" class="error_validation">{{ errors.rule5[0] }}</div>
+                            <v-row>
+                                <v-col cols="9">
+                                    <v-text-field color="grey-darken-1" label="＋新しいルール" v-model="newrule_text">
+                                    </v-text-field>
+                                    <div v-if="errors.rule1" class="error_validation"></div>
+                                </v-col>
+                                <v-col cols="3">
+                                    <v-btn class="gray" @click="addRule()">追加</v-btn>
+                                </v-col>
+                            </v-row>
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
@@ -307,6 +340,8 @@
 </style>
 
 <script>
+import axios from 'axios';
+
 // import CategoryEditComponent2 from './CategoryEditComponent2.vue';
 
 // import CategoryEditComponent from "./CategoryEditComponent.vue";
@@ -319,6 +354,7 @@ export default {
             categories: [],
             category: {},
             modalCategory: {},
+            newrule_text: "",
             newCategory: {},
             errors: {},
             id: this.$route.params.id,
@@ -344,6 +380,11 @@ export default {
             update_rule_text: '',
         }
     },
+    computed: {
+        // isVisible(ruleId) {
+        //     return false;
+        // },
+    },
     methods: {
         // 変数名の中に変数を入れる
         // const test = '変数名';
@@ -352,6 +393,10 @@ export default {
         switchView() {
             this.uneditable = !this.uneditable;
             this.editable = !this.editable;
+        },
+        switchToEditingRuleView(ruleId) {
+            // const index = this.modalCategory.rules.findIndex(rule => rule.id === ruleId);
+            // this.isVisible(ruleId) = true;
         },
         switchView_name() {
             this.editable_name = !this.editable_name;
@@ -392,6 +437,7 @@ export default {
             this.uneditable_4 = true;
             this.uneditable_5 = true;
             this.errors = {};
+            this.newrule_text = "";
         },
         getCategories() {
             axios.get('/api/categories')
@@ -413,6 +459,36 @@ export default {
             }).catch((err) => {
                 this.errors = err.response.data.errors;
             });
+        },
+        addRule() {
+            axios.post('/api/storerule/' + this.modalCategory.id, {
+                text: this.newrule_text
+            }).then((res) => {
+                console.log(res);
+                this.modalCategory.rules.push(res.data);
+                this.newrule_text = "";
+            }).catch((err) => {
+                this.errors = err.response.data.errors;
+            });
+        },
+        updateRule(rule) {
+            axios.post('/api/editrule/' + rule.id, {
+                text: rule.text,
+            }).then((res) => {
+                this.switchViewToUneditable();
+            }).catch((err) => {
+                this.errors = err.response.data.errors;
+            });
+        },
+        deleteRule(rule) {
+            axios
+                .post('api/deleterule/' + rule.id)
+                .then((res) => {
+                    this.modalCategory.rules = this.modalCategory.rules.filter(r => r.id !== rule.id);
+                })
+                .catch((err) => {
+                    alert(err.response.data.message);
+                })
         },
         deleteCategory(id) {
             axios
@@ -466,7 +542,6 @@ export default {
     },
     mounted() {
         this.getCategories();
-        console.log(this.$route.params);
     },
 }
 </script>

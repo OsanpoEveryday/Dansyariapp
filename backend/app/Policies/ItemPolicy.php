@@ -5,7 +5,6 @@ namespace App\Policies;
 use App\Item;
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Support\Facades\Auth;
 
 class ItemPolicy
 {
