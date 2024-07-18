@@ -161,6 +161,17 @@ class ItemController extends Controller
         $item->save();
     }
 
+    public function moveToDisuseItem(Request $request, Item $item){
+        $item->is_unnecessary = true;
+        $item->save();
+    }
+
+    public function moveToOwnItem(Request $request, Item $item){
+        $item->want = false;
+        $item->is_unnecessary = false;
+        $item->save();
+    }
+
     //コンポーネント上の表示
     public function destroy(Item $item){
         //引数にモデルを渡すとルートパラメータには自動でプライマリキーが入る

@@ -121,6 +121,9 @@
                     <v-btn color="gray" text @click.stop="switchView()" v-show="uneditable">
                         編集
                     </v-btn>
+                    <v-btn color="gray" text @click.stop="moveToDisuseItem(modalItem.id)" v-show="editable">
+                        使わないものへ
+                    </v-btn>
                     <v-btn color="gray" text @click.stop="deleteItem(modalItem.id)" v-show="editable">
                         削除
                     </v-btn>
@@ -417,6 +420,14 @@ export default {
                 .catch((err) => {
                     alert(err.response.data.message);
                 });
+        },
+        moveToDisuseItem(id) {
+            axios
+                .patch("api/items/todisuse/" + id)
+                .then(() => {
+                    this.modalItem.is_unnecessary = true;
+                    this.getItems();
+                })
         },
     },
     mounted() {

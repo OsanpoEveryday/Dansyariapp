@@ -113,6 +113,9 @@
                 </v-card-text>
                 <v-card-actions>
                     <v-spacer></v-spacer>
+                    <v-btn color="gray" text @click.stop="moveToOwnItem(modalItem.id)" v-show="editable">
+                        持ち物へ
+                    </v-btn>
                     <v-btn color="gray" text @click.stop="dialog_view = false" v-show="uneditable">
                         閉じる
                     </v-btn>
@@ -329,6 +332,14 @@ export default {
                 .catch((err) => {
                     this.errors = err.response.data.errors;
                 });
+        },
+        moveToOwnItem(id) {
+            axios
+                .patch("api/items/toown/" + id)
+                .then(() => {
+                    this.modalItem.want = false;
+                    this.getItems();
+                })
         },
         getItems() {
             axios.get('api/wantitems/category/' + this.$route.params.id)

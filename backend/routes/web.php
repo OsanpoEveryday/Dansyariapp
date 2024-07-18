@@ -50,6 +50,10 @@ Route::prefix('api')->group(function() {
     
     Route::post('/edititem/{item}', 'ItemController@update')
     ->middleware('can:userItem,item');
+
+    Route::patch('/items/todisuse/{item}', 'ItemController@moveToDisuseItem');
+    
+    Route::patch('/items/toown/{item}', 'ItemController@moveToOwnItem');
     
 });
 
@@ -68,9 +72,9 @@ Route::prefix('api')->group(function() {
 Route::prefix('api')->group(function() {
     Route::post('/storerule/{category}','RuleController@store');
     Route::post('/editrule/{rule}','RuleController@update')
-    ->middleware('can:userCategoryRule,rule');
+    ->middleware('can:userRule,rule');
     Route::post('/deleterule/{rule}','RuleController@destroy')
-    ->middleware('can:userCategoryRule,rule');
+    ->middleware('can:userRule,rule');
 });
 
 Route::prefix('api')->group(function() {
