@@ -338,6 +338,7 @@ export default {
                 .patch("api/items/toown/" + id)
                 .then(() => {
                     this.modalItem.want = false;
+                    this.modalItem.is_unnecessary = false;
                     this.getItems();
                 })
         },
