@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use App\User;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -22,14 +23,15 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
-    private const GUEST_USER_ID =1;
+
     public function guestLogin()
     {
-        if (Auth::loginUsingId(self::GUEST_USER_ID)) {
-            return redirect('/');
-        }
-
-        return redirect('/');
+        $guestUserId = 1; 
+        $user = User::find($guestUserId);
+        Auth::login($user);
+        $categories = Auth::user()->categories;
+        $first_category_id = $categories->sortBy('id')->first()->id;
+        return '/ownitems/category/'.$first_category_id;
     }
     /**
      * Where to redirect users after login.

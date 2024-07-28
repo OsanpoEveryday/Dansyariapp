@@ -14,6 +14,7 @@ Auth::routes();
 
 Route::prefix('api')->group(function(){
     Route::post('logout','Auth\LoginController@logout');
+    Route::post('guest-login','Auth\LoginController@guestLogin')->name('guestLogin');
 });
 
 // web.phpはデフォルトでセッションによる認証を通るように設定されている（api.phpはされていない）
