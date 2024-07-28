@@ -49,6 +49,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('login') }}">{{ __('ログイン') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <form method="POST" class="nav-link text-white" action="{{ route('guestLogin') }}">
+                                @csrf
+                                <button>ゲストログイン</button>
+                            </form>
+                        </li>
                         @if (Route::has('register'))
                         <li class="nav-item">
                             <a class="nav-link text-white" href="{{ route('register') }}">{{ __('新規登録') }}</a>
