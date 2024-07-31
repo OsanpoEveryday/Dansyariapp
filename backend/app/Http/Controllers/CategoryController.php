@@ -25,16 +25,10 @@ class CategoryController extends Controller
         return $categories;
     }
     public function store(StoreCategoryRequest $request){
-        // \Log::info(Auth::id());
         $category=new Category;
         $category->user_id=Auth::id();
         $category->name=$request->name;
         $category->memo=$request->memo;
-        $category->rule1=$request->rule1;
-        $category->rule2=$request->rule2;
-        $category->rule3=$request->rule3;
-        $category->rule4=$request->rule4;
-        $category->rule5=$request->rule5;
         $category->save();
     }
     // public function show(Category $category){
@@ -49,11 +43,6 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category){
         $category->name=$request->name;
         $category->memo=$request->memo;
-        $category->rule1=$request->rule1;
-        $category->rule2=$request->rule2;
-        $category->rule3=$request->rule3;
-        $category->rule4=$request->rule4;
-        $category->rule5=$request->rule5;
         $category->save();
     }
     public function destroy(Category $category){

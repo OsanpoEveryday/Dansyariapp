@@ -44,7 +44,8 @@ Route::prefix('api')->group(function() {
     ->middleware('auth');
 
     Route::post('/storeownitem/{category}', 'ItemController@storeOwnItem')
-    ->middleware('auth');
+    ->middleware('auth')
+    ->name('Item.store');
 
     Route::post('/storedisuseitem/{category}', 'ItemController@storeDisuseItem')
     ->middleware('auth');

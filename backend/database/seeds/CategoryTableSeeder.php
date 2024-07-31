@@ -20,18 +20,12 @@ class CategoryTableSeeder extends Seeder
             
             いくつかの考え方に基づいて提案していますので、自分に合った方法を見つけて、服選びに役立ててみてください。',
             "user_id"=> 1,
-            'rule1'=>"洗える",
-            'rule2'=>"着心地がいい",
-            'rule3'=>"安い",
         ];
         DB::table('categories')->insert($param);
 
         $param = [
             'name' => '家具',
             "user_id"=> 1,
-            'rule1'=>"メインと非メインを分ける",
-            'rule2'=>"金額比メイン:非メイン=2:8",
-            'rule3'=>"なるべく脚が細いモノ",
         ];
         DB::table('categories')->insert($param);
 
@@ -56,6 +50,43 @@ class CategoryTableSeeder extends Seeder
         $param = [
             'name' => 'インテリア',
             "user_id"=> 1
+        ];
+        DB::table('categories')->insert($param);
+
+        $param = [
+            'name' => 'ファッション',
+            'memo'=>'メモ',
+            "user_id"=> 2,
+        ];
+        DB::table('categories')->insert($param);
+
+        $param = [
+            'name' => '家具',
+            "user_id"=> 2,
+        ];
+        DB::table('categories')->insert($param);
+
+        $param = [
+            'name' => '家電',
+            "user_id"=> 2
+        ];
+        DB::table('categories')->insert($param);
+
+        $param = [
+            'name' => '日用品',
+            "user_id"=> 2
+        ];
+        DB::table('categories')->insert($param);
+
+        $param = [
+            'name' => '書籍',
+            "user_id"=> 2
+        ];
+        DB::table('categories')->insert($param);
+
+        $param = [
+            'name' => 'インテリア',
+            "user_id"=> 2
         ];
         DB::table('categories')->insert($param);
     }

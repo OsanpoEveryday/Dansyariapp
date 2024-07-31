@@ -86,17 +86,9 @@ class ItemController extends Controller
     }
 
     public function storeOwnItem(StoreItemRequest $request, Category $category){
+        //$disuse_monthに制限を追加
         $filePath = $request->item_image->store('public');
         $filePath = '/storage'.str_replace('public','',$filePath); 
-        //$disuse_monthに制限を追加
-        $validator = Validator::make($request->all(),[
-            'disuse_month' => 'numeric|between:1,24'
-        ]);
-        if ($validator->fails()) {
-            return redirect()->back()
-            ->withErrors($validator)
-            ->withInput();
-        }
         $item = new Item;
         // Authを使うにはweb.php上に書く必要あり
         $item->user_id = Auth::user()->id;
