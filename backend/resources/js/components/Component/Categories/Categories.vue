@@ -285,18 +285,6 @@
                             </v-textarea>
                             <div v-if="errors.memo" class="error_validation">{{ errors.memo[0] }}</div>
                         </v-list-item-title>
-                        <v-list-item-title>
-                            <v-row>
-                                <v-col cols="9">
-                                    <v-text-field color="grey-darken-1" label="＋新しいルール" v-model="newrule_text">
-                                    </v-text-field>
-                                    <div v-if="errors.rule1" class="error_validation"></div>
-                                </v-col>
-                                <v-col cols="3">
-                                    <v-btn class="gray" @click="addRule()">追加</v-btn>
-                                </v-col>
-                            </v-row>
-                        </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
                 <v-card-actions class="d-flex justify-end">
