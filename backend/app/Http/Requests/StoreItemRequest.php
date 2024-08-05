@@ -25,13 +25,13 @@ class StoreItemRequest extends FormRequest
     {
         return [
             'name'=>'required|max:255',
-            'item_image'=>'file|mimes:jpg,png',
-            'number'=>'min:1',
-            'amount'=>'min:1',
-            'place'=>'max:255',
-            'purchase_from'=>'max:255',
-            'url'=> 'max:16384',
-            'memo'=> 'max:16384',
+            'item_image'=>'nullable|file|mimes:jpg,png',
+            'number'=>'nullable|min:1',
+            'amount'=>'nullable|min:1',
+            'place'=>'nullable|max:255',
+            'purchase_from'=>'nullable|max:255',
+            'url'=> 'nullable|max:16384',
+            'memo'=> 'nullable|max:16384',
         ];
     }
     public function messages()

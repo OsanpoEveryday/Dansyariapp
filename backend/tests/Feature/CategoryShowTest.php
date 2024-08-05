@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
+use App\User;
 
 class CategoryShowTest extends TestCase
 {
@@ -15,7 +16,9 @@ class CategoryShowTest extends TestCase
      */
     public function testIndexCategories()
     {
-        $response = $this->get('/categories');
+        $user = factory(User::class)->create();
+
+        $response = $this->actingAs($user)->get('/api/categories');
 
         $response->assertStatus(200);
     }

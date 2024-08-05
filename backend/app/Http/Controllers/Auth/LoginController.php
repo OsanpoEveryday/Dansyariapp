@@ -31,7 +31,7 @@ class LoginController extends Controller
         Auth::login($user);
         $categories = Auth::user()->categories;
         $first_category_id = $categories->sortBy('id')->first()->id;
-        return '/ownitems/category/'.$first_category_id;
+        return redirect('/ownitems/category/'.$first_category_id);
     }
     /**
      * Where to redirect users after login.
@@ -42,9 +42,10 @@ class LoginController extends Controller
     // protected $redirectTo = RouteServiceProvider::HOME;
     // ログイン後のページ書き換え
     protected function redirectTo(){
-        $categories = Auth::user()->categories;
-        $first_category_id = $categories->sortBy('id')->first()->id;
-        return '/ownitems/category/'.$first_category_id;
+        // $categories = Auth::user()->categories;
+        // $first_category_id = $categories->sortBy('id')->first()->id;
+        // return '/ownitems/category/'.$first_category_id;
+        return app(RouteServiceProvider::class)->homePath();
     }
 
     /**

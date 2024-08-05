@@ -2,12 +2,11 @@
     <div>
         <v-card min-height="70vh">
             <v-toolbar dark>
-                <v-toolbar-title>使わなかったモノ</v-toolbar-title>
+                <v-toolbar-title>使わなかったモノ：{{ current_category.name }}</v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn color="grey lighten-3" class="black--text" @click.stop="dialog_newitem = true">アイテム追加</v-btn>
             </v-toolbar>
             <v-list-item-group class="d-flex flex-wrap">
-                <v-col v-for="item in items" :key="item.id" lg="3" md="4" sm="6" xs="12">
+                <v-col v-for="item in items" :key="item.id" lg="12" md="12" sm="12" xs="12">
                     <v-list-item class="with">
                         <v-list-item-content>
                             <v-card class="mx-auto" outlined>
@@ -76,13 +75,6 @@
                             <v-text-field type="date" v-model="update_purchase_date" required v-show="editable">
                             </v-text-field>
                             <v-divider class="mx-4 my-2"></v-divider>
-                            <div class="my-3 text-subtitle-1">いらないものに移行するまでの非使用期間</div>
-                            <v-list-item-title v-show="uneditable">
-                                {{ modalItem.disuse_month }}ヶ月
-                            </v-list-item-title>
-                            <v-text-field v-model="update_disuse_month" required v-show="editable">
-                            </v-text-field>
-                            <v-divider class="mx-4 my-2"></v-divider>
                             <div class="my-3 text-subtitle-1">URL</div>
                             <v-list-item-title v-show="uneditable">
                                 {{ modalItem.url }}
@@ -124,121 +116,7 @@
             </v-card>
         </v-dialog>
         <!-- アイテム追加ダイアログ -->
-        <v-dialog v-model="dialog_newitem" persistent max-width="500px" scrollable>
-            <v-card outlined color="#EEEEEE">
-                <v-card-text style="height: 600px;" class="m-3">
-                    <v-list-item>
-                        <v-list-item-content>
-                            <div class="my-3 text-h6">アイテム名</div>
-                            <v-text-field v-model="newitem.name" required>
-                            </v-text-field>
-                            <input type="file" @change="fileSelected">
-                            <div class="my-3 text-subtitle-1">購入金額</div>
-                            <v-text-field type="number" v-model="newitem.amount">
-                            </v-text-field>
-                            <div class="my-3 text-subtitle-1">収納場所</div>
-                            <v-text-field v-model="newitem.place" required>
-                            </v-text-field>
-                            <div class="my-3 text-subtitle-1">購入場所</div>
-                            <v-text-field v-model="newitem.purchase_from" required>
-                            </v-text-field>
-                            <div class="my-3 text-subtitle-1">購入日</div>
-                            <v-text-field type="date" v-model="newitem.purchase_date">
-                            </v-text-field>
-                            <div class="my-3 text-subtitle-1">いらないものに移行するまでの非使用期間（1〜24ヶ月）</div>
-                            <v-text-field v-model="newitem.disuse_month">
-                            </v-text-field>ヶ月
-                            <div class="my-3 text-subtitle-1">URL</div>
-                            <v-text-field v-model="newitem.url">
-                            </v-text-field>
-                            <div class="my-3 text-subtitle-1">メモ</div>
-                            <v-textarea v-model="newitem.memo" :value="modalItem.memo">
-                            </v-textarea>
-                            <v-divider class="mx-4 my-2"></v-divider>
-                        </v-list-item-content>
-                    </v-list-item>
-                </v-card-text>
-                <v-card-actions>
-                    <v-spacer></v-spacer>
-                    <v-btn color="gray" text @click.stop="dialog_newitem = false">
-                        閉じる
-                    </v-btn>
-                    <v-btn color="gray" text @click.stop="upload()">
-                        追加
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
     </div>
-    <!-- <div>
-        <v-list-item-group class="d-flex flex-wrap">
-            <v-col v-for="disuse_item in disuse_items" :key="disuse_item.id" lg="3" md="4" sm="6" xs="12">
-                <v-list-item class="with">
-                    <v-list-item-content>
-                        <v-card class="mx-auto" outlined>
-                            <v-list-item three-line>
-                                <v-list-item-content>
-                                    <div class="text-overline mb-4">
-
-                                    </div>
-                                    <v-list-item-title class="text-h6 mb-1">
-
-                                        {{ disuse_item.name }}
-
-                                    </v-list-item-title>
-                                    <v-list-item-subtitle></v-list-item-subtitle>
-                                </v-list-item-content>
-
-                                <v-list-item-avatar tile size="80" color="grey"><img :src="disuse_item.image_path" alt="">
-                                </v-list-item-avatar>
-                            </v-list-item>
-                            <v-card-actions>
-                                <v-btn outlined rounded text @click="deleteItem(disuse_item.id)">
-                                    削除
-                                </v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-list-item-content>
-                </v-list-item>
-            </v-col>
-        </v-list-item-group>
-        <v-dialog v-model="dialog" persistent max-width="600px">
-            <template v-slot:activator="{ on, attrs }">
-                <v-btn color="gray" dark v-bind="attrs" v-on="on">
-                    アイテム追加
-                </v-btn>
-            </template>
-<v-card>
-    <form @submit.prevent="">
-        <v-card-title>
-            <span class="text-h5">アイテム追加</span>
-        </v-card-title>
-        <v-card-text>
-            <v-container>
-                <v-row>
-                    <v-col cols="12">
-                        <v-text-field v-model="disuse_item.name" label="アイテム名" required>
-                        </v-text-field>
-                        <v-text-field v-model="disuse_item.disuse_month" label="非使用期間" required>
-                        </v-text-field>
-                        <input type="file" @change="fileSelected">
-                    </v-col>
-                </v-row>
-            </v-container>
-        </v-card-text>
-        <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="gray" text @click="dialog = false">
-                閉じる
-            </v-btn>
-            <v-btn color="gray" text @click="upload">
-                追加
-            </v-btn>
-        </v-card-actions>
-    </form>
-</v-card>
-</v-dialog>
-</div> -->
 </template>
 
 <script>
@@ -246,8 +124,8 @@ export default {
     data() {
         return {
             items: [],
+            current_category: {},
             item: {},
-            newitem: {},
             modalItem: {},
             dialog: false,
             fileInfo: '',
@@ -281,6 +159,7 @@ export default {
         },
         $route: function () {
             this.getItems();
+            this.getCurrentCategory();
         }
     },
     methods: {
@@ -294,6 +173,12 @@ export default {
         switchView() {
             this.uneditable = !this.uneditable;
             this.editable = !this.editable;
+        },
+        getCurrentCategory() {
+            axios.get('api/getcurrentcategory/' + this.$route.params.id)
+                .then((res) => {
+                    this.current_category = res.data;
+                });
         },
         editItem(id) {
             axios
@@ -341,27 +226,6 @@ export default {
                     alert(err.response.data.message);
                 });
         },
-        upload() {
-            const formData = new FormData()
-            formData.append('item_image', this.fileInfo)
-            formData.append('name', this.newitem.name)
-            formData.append('amount', this.newitem.amount)
-            formData.append('place', this.newitem.place)
-            formData.append('purchase_from', this.newitem.purchase_from)
-            formData.append('purchase_date', this.newitem.purchase_date)
-            formData.append('disuse_month', this.newitem.disuse_month)
-            formData.append('url', this.newitem.url)
-            formData.append('memo', this.newitem.memo)
-            axios
-                .post("api/storedisuseitem/" + this.$route.params.id, formData)
-                .then((res) => {
-                    console.log(res);
-                    this.dialog_newitem = false;
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
         moveToOwnItem(id) {
             axios
                 .patch("api/items/toown/" + id)
@@ -380,15 +244,7 @@ export default {
     },
     mounted() {
         this.getItems();
+        this.getCurrentCategory();
     },
-    beforeRouteUpdate(to, from, next) {
-        const id = to.params.id;
-        axios.get('api/disuseitems/category/' + id)
-            .then((res) => {
-                this.items = res.data;
-            });
-        next()
-    },
-
 }
 </script>

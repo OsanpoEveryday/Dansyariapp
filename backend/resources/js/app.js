@@ -14,7 +14,7 @@ import router from "./router";
 import VueRouter from 'vue-router';
 
 import AppComponent from "./components/AppComponent";
-// import Header from "./components/Component/Header";
+import Header from "./components/Component/Header";
 
 /**
  * The following block of code may be used to automatically register your
@@ -44,7 +44,7 @@ const app = new Vue({
     vuetify,
     components:{
         "app-component":AppComponent,
-        // "header-component":Header,
+        "header-component":Header,
     }
 });
 

@@ -12,16 +12,6 @@
                         </div>
                     </v-list-item-content>
                 </v-list-item>
-                <!-- <v-list-item>
-                    <v-list-item-content class="d-flex justify-center">
-                        <v-list-item-title class="d-inline-block">
-                            カテゴリ一覧
-                        </v-list-item-title>
-                        <v-btn text class="d-inline-block">
-                            <i class="fa-solid fa-gear"></i>
-                        </v-btn>
-                    </v-list-item-content>
-                </v-list-item> -->
                 <v-divider class="my-2"></v-divider>
                 <v-list-item v-for="category in categories" :key="category.id">
                     <v-list-item-content>
@@ -61,20 +51,6 @@
                                 </v-btn>
                             </div>
                         </template>
-                        <!-- <template v-if="$route.path === '/wantitems/category/' + $route.params.id">
-                            <v-btn text>
-                                <router-link v-bind:to="{ name: 'wantitems', params: { id: category.id } }">
-                                    {{ category.name }}
-                                </router-link>
-                            </v-btn>
-                        </template> -->
-                        <!-- <template v-if="$route.path === '/disuseitems/category/' + $route.params.id">
-                            <v-btn>
-                                <router-link v-bind:to="{ name: 'disuseitems', params: { id: category.id } }">
-                                    {{ category.name }}
-                                </router-link>
-                            </v-btn>
-                        </template> -->
                     </v-list-item-content>
                 </v-list-item>
             </v-list>
@@ -151,96 +127,6 @@
                                 </v-row>
                             </v-list-item-title>
                         </div>
-                        <!-- <div class="parent" v-show="uneditable_1">
-                            <v-list-item-title>
-                                ルール１: {{ modalCategory.rule1 }}
-                            </v-list-item-title>
-                            <v-btn class="child" text @click="switchView1()">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </v-btn>
-                        </div>
-                        <v-list-item-title>
-                            <v-row v-show="editable_1">
-                                <v-col cols="12">
-                                    <v-text-field color="grey-darken-1" label="ルール１" v-model="modalCategory.rule1">
-                                    </v-text-field>
-                                    <div v-if="errors.rule1" class="error_validation">{{ errors.rule1[0] }}</div>
-                                </v-col>
-                            </v-row>
-                        </v-list-item-title>
-                        <v-divider class="my-4"></v-divider>
-                        <div class="parent" v-show="uneditable_2">
-                            <v-list-item-title>
-                                ルール２: {{ modalCategory.rule2 }}
-                            </v-list-item-title>
-                            <v-btn class="child" text @click="switchView2()">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </v-btn>
-                        </div>
-                        <v-list-item-title>
-                            <v-row v-show="editable_2">
-                                <v-col cols="12">
-                                    <v-text-field color="grey-darken-1" label="ルール２" v-model="modalCategory.rule2">
-                                    </v-text-field>
-                                    <div v-if="errors.rule2" class="error_validation">{{ errors.rule2[0] }}</div>
-                                </v-col>
-                            </v-row>
-                        </v-list-item-title>
-                        <v-divider class="my-4"></v-divider>
-                        <div class="parent" v-show="uneditable_3">
-                            <v-list-item-title>
-                                ルール３: {{ modalCategory.rule3 }}
-                            </v-list-item-title>
-                            <v-btn class="child" text @click="switchView3()">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </v-btn>
-                        </div>
-                        <v-list-item-title>
-                            <v-row v-show="editable_3">
-                                <v-col cols="12">
-                                    <v-text-field color="grey-darken-1" label="ルール３" v-model="modalCategory.rule3">
-                                    </v-text-field>
-                                    <div v-if="errors.rule3" class="error_validation">{{ errors.rule3[0] }}</div>
-                                </v-col>
-                            </v-row>
-                        </v-list-item-title>
-                        <v-divider class="my-4"></v-divider>
-                        <div class="parent" v-show="uneditable_4">
-                            <v-list-item-title>
-                                ルール４: {{ modalCategory.rule4 }}
-                            </v-list-item-title>
-                            <v-btn class="child" text @click="switchView4()">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </v-btn>
-                        </div>
-                        <v-list-item-title>
-                            <v-row v-show="editable_4">
-                                <v-col cols="12">
-                                    <v-text-field color="grey-darken-1" label="ルール４" v-model="modalCategory.rule4">
-                                    </v-text-field>
-                                    <div v-if="errors.rule4" class="error_validation">{{ errors.rule4[0] }}</div>
-                                </v-col>
-                            </v-row>
-                        </v-list-item-title>
-                        <v-divider class="my-4"></v-divider>
-                        <div class="parent" v-show="uneditable_5">
-                            <v-list-item-title>
-                                ルール５: {{ modalCategory.rule5 }}
-                            </v-list-item-title>
-                            <v-btn class="child" text @click="switchView5()">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </v-btn>
-                        </div>
-                        <v-list-item-title>
-                            <v-row v-show="editable_5">
-                                <v-col cols="12">
-                                    <v-text-field color="grey-darken-1" label="ルール５" v-model="modalCategory.rule5">
-                                    </v-text-field>
-                                    <div v-if="errors.rule5" class="error_validation">{{ errors.rule5[0] }}</div>
-                                </v-col>
-                            </v-row>
-                        </v-list-item-title>
-                        <v-divider class="my-4"></v-divider> -->
                     </v-list-item-content>
                 </v-list-item>
                 <v-card-actions class="d-flex justify-end">
