@@ -19,7 +19,9 @@ class CategoryController extends Controller
         $select_link = '/select/'.$first_category_id; 
         return compact('ownitems_link','wantitems_link','disuseitems_link','select_link');
     }
-
+    public function getCurrentCategory(Category $category){
+        return $category;
+    }
     public function index(){
         $categories=Category::with('rules')->where('user_id', Auth::user()->id)->get();
         return $categories;
@@ -31,15 +33,6 @@ class CategoryController extends Controller
         $category->memo=$request->memo;
         $category->save();
     }
-    // public function show(Category $category){
-    //     return $category;
-    // }
-    //     public function show($categoryId)
-    // {
-    //       $category = Category::find($categoryId);
-    //        return $category;
-    // }
-    // を簡略化した書き方
     public function update(UpdateCategoryRequest $request, Category $category){
         $category->name=$request->name;
         $category->memo=$request->memo;

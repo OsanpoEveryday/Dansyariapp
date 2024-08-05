@@ -12,9 +12,10 @@
 */
 Auth::routes();
 
+Route::post('guest-login','Auth\LoginController@guestLogin')->name('guestLogin');
+
 Route::prefix('api')->group(function(){
     Route::post('logout','Auth\LoginController@logout');
-    Route::post('guest-login','Auth\LoginController@guestLogin')->name('guestLogin');
 });
 
 // web.phpはデフォルトでセッションによる認証を通るように設定されている（api.phpはされていない）
@@ -24,35 +25,29 @@ Route::prefix('api')->group(function() {
     // Route::get('/ownitems/category/{category}', 'ItemController@ownItems')
     // ->middleware('can:userItem,category');
 
-    Route::get('/getlinks', 'CategoryController@getLinks')
-    ->middleware('auth');
-
     Route::get('/ownitems/category/{category}', 'ItemController@ownItems')
     ->middleware('can:userCategory,category');
-
+    
     Route::get('/disuseitems/category/{category}', 'ItemController@disuseItems')
     ->middleware('can:userCategory,category');
-
+    
     Route::get('/wantitems/category/{category}', 'ItemController@wantItems')
     ->middleware('can:userCategory,category');
-
+    
     Route::delete('/items/{item}', 'ItemController@destroy')
     // can以下はAuthServiceProviderのGateの第一引数と一致
     ->middleware('can:deleteItem,item');
-
+    
     Route::post('/storewantitem/{category}', 'ItemController@storeWantItem')
     ->middleware('auth');
-
+    
     Route::post('/storeownitem/{category}', 'ItemController@storeOwnItem')
     ->middleware('auth')
     ->name('Item.store');
-
-    Route::post('/storedisuseitem/{category}', 'ItemController@storeDisuseItem')
-    ->middleware('auth');
     
     Route::post('/edititem/{item}', 'ItemController@update')
     ->middleware('can:userItem,item');
-
+    
     Route::patch('/items/todisuse/{item}', 'ItemController@moveToDisuseItem');
     
     Route::patch('/items/toown/{item}', 'ItemController@moveToOwnItem');
@@ -61,7 +56,12 @@ Route::prefix('api')->group(function() {
 
 
 Route::prefix('api')->group(function() {
-    Route::get('/categories', 'CategoryController@index');
+    Route::get('/getlinks', 'CategoryController@getLinks')
+    ->middleware('auth');
+    Route::get('getcurrentcategory/{category}', 'CategoryController@getCurrentCategory')
+    ->middleware('auth');
+    Route::get('/categories', 'CategoryController@index')
+    ->middleware('auth');
     // Route::get('/categoryedit/{categoryId}', 'CategoryController@show');
     Route::post('/categoryedit/{category}', 'CategoryController@update')
     ->middleware('can:userCategory,category');

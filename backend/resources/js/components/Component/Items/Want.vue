@@ -2,12 +2,12 @@
     <div>
         <v-card min-height="70vh">
             <v-toolbar dark>
-                <v-toolbar-title>欲しいモノ</v-toolbar-title>
+                <v-toolbar-title>欲しいモノ:{{ current_category.name }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn color="grey lighten-3" class="black--text" @click.stop="dialog_newitem = true">アイテム追加</v-btn>
             </v-toolbar>
             <v-list-item-group class="d-flex flex-wrap">
-                <v-col v-for="item in items" :key="item.id" lg="3" md="4" sm="6" xs="12">
+                <v-col v-for="item in items" :key="item.id" lg="12" md="12" sm="12" xs="12">
                     <v-list-item class="with">
                         <v-list-item-content>
                             <v-card class="mx-auto" outlined>
@@ -83,13 +83,6 @@
                                 {{ modalItem.purchase_date }}
                             </v-list-item-title>
                             <v-text-field type="date" v-model="update_purchase_date" required v-show="editable">
-                            </v-text-field>
-                            <v-divider class="mx-4 my-2"></v-divider>
-                            <div class="my-3 text-subtitle-1">いらないものに移行するまでの非使用期間</div>
-                            <v-list-item-title v-show="uneditable">
-                                {{ modalItem.disuse_month }}ヶ月
-                            </v-list-item-title>
-                            <v-text-field v-model="update_disuse_month" required v-show="editable">
                             </v-text-field>
                             <v-divider class="mx-4 my-2"></v-divider>
                             <div class="my-3 text-subtitle-1">URL</div>
@@ -170,9 +163,6 @@
                             <div class="my-3 text-subtitle-1">購入日</div>
                             <v-text-field type="date" v-model="newitem.purchase_date">
                             </v-text-field>
-                            <div class="my-3 text-subtitle-1">いらないものに移行するまでの非使用期間（1〜24ヶ月）</div>
-                            <v-text-field v-model="newitem.disuse_month">
-                            </v-text-field>ヶ月
                             <div class="my-3 text-subtitle-1">URL</div>
                             <v-text-field v-model="newitem.url">
                             </v-text-field>
@@ -212,8 +202,16 @@ export default {
         return {
             items: [],
             item: {},
+            current_category: {},
             newitem: {
                 name: '',
+                item_image: '',
+                amount: '',
+                place: '',
+                purchase_date: '',
+                purchase_from: '',
+                url: '',
+                memo: '',
             },
             modalItem: {},
             dialog: false,
@@ -251,6 +249,7 @@ export default {
         // ルートパラメータのみの変更は自動では取得できないため、categoryが変更した時にItemsを再取得
         $route: function () {
             this.getItems();
+            this.getCurrentCategory();
         }
     },
     methods: {
@@ -265,6 +264,12 @@ export default {
             this.uneditable = !this.uneditable;
             this.editable = !this.editable;
             this.errors = {};
+        },
+        getCurrentCategory() {
+            axios.get('api/getcurrentcategory/' + this.$route.params.id)
+                .then((res) => {
+                    this.current_category = res.data;
+                });
         },
         editItem(id) {
             axios
@@ -320,14 +325,13 @@ export default {
             formData.append('place', this.newitem.place)
             formData.append('purchase_from', this.newitem.purchase_from)
             formData.append('purchase_date', this.newitem.purchase_date)
-            formData.append('disuse_month', this.newitem.disuse_month)
             formData.append('url', this.newitem.url)
             formData.append('memo', this.newitem.memo)
             axios
                 .post("api/storewantitem/" + this.$route.params.id, formData)
                 .then((res) => {
-                    console.log(res);
                     this.dialog_newitem = false;
+                    this.getItems();
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
@@ -351,6 +355,7 @@ export default {
     },
     mounted() {
         this.getItems();
+        this.getCurrentCategory();
     },
     beforeRouteUpdate(to, from, next) {
         const id = to.params.id;

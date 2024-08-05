@@ -3,10 +3,9 @@
 
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Rule from './components/Rule.vue';
-import Sort from './components/Pages/Sort.vue';
-import Select from './components/Pages/Select.vue';
 import Home from './components/Pages/Home.vue';
+import Rule from './components/Rule.vue';
+import Select from './components/Pages/Select.vue';
 import Example from './components/ExampleComponent.vue';
 
 Vue.use(VueRouter);
@@ -33,19 +32,6 @@ const router = new VueRouter({
             path:'/disuseitems/category/:id',
             name:'disuseitems',
             component:Home,
-        },
-        {
-            path: '/home',
-            name: 'home',
-            component: Sort,
-            children:[
-                {
-                    path: 'null',
-                    name: 'home.null',
-                    component: Sort,
-                    props:true,
-                },
-            ]
         },
         {
             path:'/rules',

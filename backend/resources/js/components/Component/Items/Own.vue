@@ -2,19 +2,19 @@
     <div>
         <v-card min-height="70vh">
             <v-toolbar dark>
-                <v-toolbar-title>持ちモノ</v-toolbar-title>
+                <v-toolbar-title>持ちモノ:{{ current_category.name }}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn color="grey lighten-3" class="black--text" @click.stop="dialog_newitem = true">アイテム追加</v-btn>
             </v-toolbar>
             <v-list-item-group class="d-flex flex-wrap">
-                <v-col v-for="item in items" :key="item.id" lg="3" md="4" sm="6" xs="12">
+                <v-col v-for="item in items" :key="item.id" lg="12" md="12" sm="12" xs="12">
                     <!-- コンポーネントで分けるもしくはdialogを外出しして内容を切り替える -->
                     <v-list-item class="with">
                         <v-list-item-content>
                             <v-card class="mx-auto" outlined>
                                 <v-list-item three-line @click="openViewDialog(item)">
                                     <v-list-item-content>
-                                        <div class="text-overline mb-4">
+                                        <div class="text-overline">
                                         </div>
                                         <v-list-item-title class="text-h6 mb-1">
                                             {{ item.name }}
@@ -85,13 +85,6 @@
                                 {{ modalItem.purchase_date }}
                             </v-list-item-title>
                             <v-text-field type="date" v-model="update_purchase_date" required v-show="editable">
-                            </v-text-field>
-                            <v-divider class="mx-4 my-2"></v-divider>
-                            <div class="my-3 text-subtitle-1">いらないものに移行するまでの非使用期間</div>
-                            <v-list-item-title v-show="uneditable">
-                                {{ modalItem.disuse_month }}ヶ月
-                            </v-list-item-title>
-                            <v-text-field v-model="update_disuse_month" required v-show="editable">
                             </v-text-field>
                             <v-divider class="mx-4 my-2"></v-divider>
                             <div class="my-3 text-subtitle-1">URL</div>
@@ -173,9 +166,6 @@
                             <div class="my-3 text-subtitle-1">購入日</div>
                             <v-text-field type="date" v-model="newitem.purchase_date">
                             </v-text-field>
-                            <div class="my-3 text-subtitle-1">いらないものに移行するまでの非使用期間（1〜24ヶ月）</div>
-                            <v-text-field v-model="newitem.disuse_month">
-                            </v-text-field>ヶ月
                             <div class="my-3 text-subtitle-1">URL</div>
                             <v-text-field v-model="newitem.url">
                             </v-text-field>
@@ -199,74 +189,6 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
-        <!-- ここまでアイテム追加ダイアログ -->
-        <!-- <v-dialog v-model="dialog_edit" persistent max-width="500px">
-                    https://ja.vuejs.org/guide/components/attrs
-                    <v-card>
-                        <form @submit.prevent="">
-                            <v-card-title>
-                                <span class="text-h5">編集</span>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-container>
-                                    <v-row>
-                                        <v-col cols="12">
-                                            <v-text-field v-model="update_name" label="アイテム名" required>
-                                            </v-text-field>
-                                        </v-col>
-                                    </v-row>
-                                </v-container>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn color="gray" text @click.stop="dialog_edit = false">
-                                    閉じる
-                                </v-btn>
-                                <v-btn color="gray" text @click="editItem(modalItemId)">
-                                    編集
-                                </v-btn>
-                            </v-card-actions>
-                        </form>
-                    </v-card>
-                </v-dialog> -->
-
-        <!-- <v-dialog v-model="dialog" persistent max-width="600px">
-            <template v-slot:activator="{ attrs }">
-                常に表示しておくもの
-                <v-btn color="gray" dark v-bind="attrs">
-                    アイテム追加
-                </v-btn> -->
-        <!-- </template> -->
-        <!-- <v-card>
-                <form @submit.prevent="">
-                    <v-card-title>
-                        <span class="text-h5">アイテム追加</span>
-                    </v-card-title>
-                    <v-card-text>
-                        <v-container>
-                            <v-row>
-                                <v-col cols="12">
-                                    <v-text-field v-model="newitem.name" label="アイテム名" required>
-                                    </v-text-field>
-                                    <v-text-field v-model="newitem.disuse_month" label="非使用期間" required>
-                                    </v-text-field>
-                                    <input type="file" @change="fileSelected">
-                                </v-col>
-                            </v-row>
-                        </v-container>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-spacer></v-spacer>
-                        <v-btn color="gray" text @click="dialog = false">
-                            閉じる
-                        </v-btn>
-                        <v-btn color="gray" text @click="upload">
-                            追加
-                        </v-btn>
-                    </v-card-actions>
-                </form>
-            </v-card>
-        </v-dialog> -->
     </div>
 </template>
 
@@ -284,9 +206,17 @@ export default {
     data() {
         return {
             items: [],
+            current_category: {},
             newitem: {
                 // 最初に定義しないとundefindが表示される
                 name: '',
+                item_image: '',
+                amount: '',
+                place: '',
+                purchase_date: '',
+                purchase_from: '',
+                url: '',
+                memo: '',
             },
             modalItem: {},
             modalItemId: '',
@@ -332,7 +262,7 @@ export default {
 
         $route: function () {
             this.getItems();
-            console.log(this.items);
+            this.getCurrentCategory();
         }
     },
     methods: {
@@ -340,6 +270,12 @@ export default {
             axios.get('api/ownitems/category/' + this.$route.params.id)
                 .then((res) => {
                     this.items = res.data;
+                });
+        },
+        getCurrentCategory() {
+            axios.get('api/getcurrentcategory/' + this.$route.params.id)
+                .then((res) => {
+                    this.current_category = res.data;
                 });
         },
         fileSelected(event) {
@@ -353,14 +289,13 @@ export default {
             formData.append('place', this.newitem.place)
             formData.append('purchase_from', this.newitem.purchase_from)
             formData.append('purchase_date', this.newitem.purchase_date)
-            formData.append('disuse_month', this.newitem.disuse_month)
             formData.append('url', this.newitem.url)
             formData.append('memo', this.newitem.memo)
             axios
                 .post("api/storeownitem/" + this.$route.params.id, formData)
                 .then((res) => {
-                    console.log(res);
                     this.dialog_newitem = false;
+                    this.getItems();
                 })
                 .catch((err) => {
                     this.errors = err.response.data.errors;
@@ -432,7 +367,7 @@ export default {
     },
     mounted() {
         this.getItems();
-        console.log(this.items);
+        this.getCurrentCategory();
     },
     // beforeRouteUpdate(to, from, next) {
     //     const id = to.params.id;
