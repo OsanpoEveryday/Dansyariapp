@@ -79,6 +79,7 @@ URL:(PC)
 
 ### バックエンド
 - PHP/Laravel
+あああ
 
 ### DB
 - MySQL
@@ -91,5 +92,6 @@ URL:(PC)
 - Git/GitHub
 - Docker(開発環境)
 
+### インフラ構成
 
 
