@@ -70,6 +70,26 @@ URL:(PC)
 - 使用履歴が古い順に表示
 - アイテム種別の変更（持ちモノ-> 使わなかったモノ）
 
+## DB図
+
+## 使用言語・フレームワーク・環境
+
+### フロントエンド
+- JavaScript/Vue.js/Vuetify
+
+### バックエンド
+- PHP/Laravel
+
+### DB
+- MySQL
+
+### インフラ
+- AWS(VPC・EC2・RDS・EBS・Route53)
+
+### 環境・ツール
+- VS Code
+- Git/GitHub
+- Docker(開発環境)
 
 
 
