@@ -246,7 +246,6 @@ export default {
             const formData = new FormData()
             formData.append('item_image', this.fileInfo)
             formData.append('name', this.item.name)
-            formData.append('disuse_month', this.item.disuse_month)
             axios
                 .post("api/items", formData)
                 .then((res) => {

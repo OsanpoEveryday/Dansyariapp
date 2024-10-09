@@ -50,7 +50,6 @@ class ItemController extends Controller
         $item->place = $request->place;
         $item->purchase_from = $request->purchase_from;
         $item->purchase_date = $request->purchase_date;
-        $item->disuse_month = $request->disuse_month;
         $item->url = $request->url;
         $item->memo = $request->memo;
         $item->category_id = $category->id;
@@ -74,7 +73,6 @@ class ItemController extends Controller
         $item->place = $request->place;
         $item->purchase_from = $request->purchase_from;
         $item->purchase_date = $request->purchase_date;
-        $item->disuse_month = $request->disuse_month;
         $item->url = $request->url;
         $item->memo = $request->memo;
         $item->category_id = $category->id;
@@ -95,7 +93,6 @@ class ItemController extends Controller
         $item->place = $request->place;
         $item->purchase_from = $request->purchase_from;
         $item->purchase_date = $request->purchase_date;
-        $item->disuse_month = $request->disuse_month;
         $item->url = $request->url;
         $item->memo = $request->memo;
         $item->save();
