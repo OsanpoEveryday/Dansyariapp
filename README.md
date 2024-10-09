@@ -15,7 +15,7 @@
 # 作成したアプリについて
 
 ## アプリ名:Simple-List
-URL:(PC)
+URL(PC):[https://dansyariapp.com](https://dansyariapp.com/)
 
 ## アプリ概要
 持ち物を管理するためのアプリ。
