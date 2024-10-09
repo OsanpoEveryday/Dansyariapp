@@ -28,7 +28,6 @@
 						$table->timestamps();
 						$table->boolean('want')->default(false);
 						$table->boolean('is_unnecessary')->default(false);
-						$table->integer('disuse_month')->nullable();
                         $table->text('url')->nullable();
                         $table->text('memo')->nullable();
 

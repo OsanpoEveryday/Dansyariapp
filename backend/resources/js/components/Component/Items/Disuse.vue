@@ -137,7 +137,6 @@ export default {
             update_place: '',
             update_purchase_from: '',
             update_purchase_date: '',
-            update_disuse_month: '',
             update_url: '',
             update_memo: '',
 
@@ -153,7 +152,6 @@ export default {
             this.update_place = this.modalItem.place;
             this.update_purchase_from = this.modalItem.purchase_from;
             this.update_purchase_date = this.modalItem.purchase_date;
-            this.update_disuse_month = this.modalItem.disuse_month;
             this.update_url = this.modalItem.url;
             this.update_memo = this.modalItem.memo;
         },
@@ -188,7 +186,6 @@ export default {
                     place: this.update_place,
                     purchase_from: this.update_purchase_from,
                     purchase_date: this.update_purchase_date,
-                    disuse_month: this.update_disuse_month,
                     url: this.update_url,
                     memo: this.update_memo,
                 })
@@ -201,7 +198,6 @@ export default {
                         place: this.update_place,
                         purchase_from: this.update_purchase_from,
                         purchase_date: this.update_purchase_date,
-                        disuse_month: this.update_disuse_month,
                         url: this.update_url,
                         memo: this.update_memo,
                     });
