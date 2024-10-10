@@ -104,7 +104,8 @@ Vuetifyはシンプルな記述で比較的直感的に画面を作成できる�
 - Docker(開発環境)
 
 ### インフラ構成
-![inflaのコピー 001](https://github.com/user-attachments/assets/68b28d7b-d69b-4220-9faa-7cbcad783c0a)
+![infla_r 001](https://github.com/user-attachments/assets/c861f43e-03f5-4094-9218-b8f31e43b792)
+
 
 ## 苦労した点
 
